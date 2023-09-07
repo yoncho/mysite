@@ -13,8 +13,8 @@ import com.poscodx.mysite.vo.GuestbookVo;
 
 public class GuestbookDao {
 	private final String URL = "jdbc:mariadb://192.168.0.181:3307/webdb?charset=utf8";
-	private final String ID = "*******";
-	private final String PW = "*******";
+	private final String ID = "******";
+	private final String PW = "******";
 	
 	public boolean insert(GuestbookVo vo) {
 		Connection conn = null;
@@ -117,7 +117,6 @@ public class GuestbookDao {
 			System.out.println("error:" + e);
 		} finally{
 			try {
-				//6. 자원 정리
 				if(rs != null) {
 					rs.close();
 				}
