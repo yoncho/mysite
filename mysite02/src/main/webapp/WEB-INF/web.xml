@@ -51,4 +51,10 @@
     <servlet-name>BoardController</servlet-name>
     <url-pattern>/board</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GuestbookActionFactory</display-name>
+    <servlet-name>GuestbookActionFactory</servlet-name>
+    <servlet-class>com.poscodx.mysite.web.mvc.guestbook.GuestbookActionFactory</servlet-class>
+  </servlet>
 </web-app>

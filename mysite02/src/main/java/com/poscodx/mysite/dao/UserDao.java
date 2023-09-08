@@ -10,8 +10,8 @@ import com.poscodx.mysite.vo.UserVo;
 
 public class UserDao {
 	private final String URL = "jdbc:mariadb://192.168.0.181:3307/webdb?charset=utf8";
-	private final String ID = "yoncho";
-	private final String PW = "tkaak1212";
+	private final String ID = "*******";
+	private final String PW = "*******";
 	
 	public boolean insert(UserVo vo) {
 		Connection conn = null;
@@ -49,6 +49,135 @@ public class UserDao {
 		return result;
 	}
 	
+	public boolean update(UserVo vo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		boolean result = false;
+		
+		try {
+			conn = getConnection();
+			String updateSql;
+			if("".equals(vo.getPassword())) {
+				updateSql = "update user"
+						+ " set name=?, gender=?"
+						+ " where email=?";
+				pstmt = conn.prepareStatement(updateSql);
+				
+				pstmt.setString(1, vo.getName());
+				pstmt.setString(2, vo.getGender());
+				pstmt.setString(3, vo.getEmail());
+			}else {
+				updateSql = "update user"
+						+ " set name=?, password=password(?),gender=?"
+						+ " where email=?";
+				pstmt = conn.prepareStatement(updateSql);
+				pstmt.setString(1, vo.getName());
+				pstmt.setString(2, vo.getPassword());
+				pstmt.setString(3, vo.getGender());
+				pstmt.setString(4, vo.getEmail());
+			}
+			result =  pstmt.executeUpdate() == 1;
+		} catch(SQLException e) {
+			System.out.println("error:" + e);
+		} finally{
+			try {
+				//5. 자원 정리
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null && !conn.isClosed())
+				{
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public String findEmailByNo(Long no) {
+		String email = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+
+			String selectSql = "select email" +
+					 			" from user " +
+					 			" where no=?";
+			pstmt = conn.prepareStatement(selectSql);
+			
+			pstmt.setLong(1, no);
+			
+			rs =  pstmt.executeQuery();
+			if(rs.next()) {
+				email = rs.getString(1);
+			}
+		} catch(SQLException e) {
+			System.out.println("error:" + e);
+		} finally{
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null && !conn.isClosed())
+				{
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return email;
+	}
+	
+	public String findGenderByNo(Long no) {
+		String gender = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+
+			String selectSql = "select gender" +
+					 			" from user" +
+					 			" where no=?";
+			pstmt = conn.prepareStatement(selectSql);
+			
+			pstmt.setLong(1, no);
+			
+			rs =  pstmt.executeQuery();
+			if(rs.next()) {
+				gender = rs.getString(1);
+			}
+		} catch(SQLException e) {
+			System.out.println("error:" + e);
+		} finally{
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null && !conn.isClosed())
+				{
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return gender;
+	}
+	
 	public UserVo findByEmailAndPassword(String email, String password) {
 		UserVo userVo = null;
 		Connection conn = null;
@@ -57,11 +186,11 @@ public class UserDao {
 		
 		try {
 			conn = getConnection();
-
-			String authorSql = "select no, name " +
-					 			"from user " +
-					 			"where email=?" + 
-					 			"and password=password(?);";
+			
+			String authorSql = "select no, name" +
+					 			" from user " +
+					 			" where email=?" + 
+					 			" and password=password(?);";
 			pstmt = conn.prepareStatement(authorSql);
 			
 			pstmt.setString(1, email);
@@ -71,7 +200,6 @@ public class UserDao {
 			if(rs.next()) {
 				Long no = rs.getLong(1);
 				String name = rs.getString(2);
-				
 				userVo = new UserVo();
 				userVo.setNo(no);
 				userVo.setName(name);
