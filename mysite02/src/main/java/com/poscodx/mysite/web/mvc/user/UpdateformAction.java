@@ -25,8 +25,9 @@ public class UpdateformAction implements Action {
 			response.sendRedirect(request.getContextPath()+"/user?=loginform");
 			return;
 		}
-
 		////////////////////////////////// 접근제어로 위 코드가 자주 사용됨.
+		UserVo userVo = new UserDao().findByNo(authUser.getNo());
+		request.setAttribute("userVo", userVo);
 		WebUtil.forward("user/updateform", request, response);
 	}
 

@@ -16,6 +16,16 @@ public class UpdateAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Access Control
+		HttpSession session = request.getSession();
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+
+		if (authUser == null) {
+			response.sendRedirect(request.getContextPath() + "/user?=loginform");
+			return;
+		}
+		////////////////////////////////// 접근제어로 위 코드가 자주 사용됨.
+
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		String gender = request.getParameter("gender");
@@ -26,19 +36,10 @@ public class UpdateAction implements Action {
 		userVo.setEmail(email);
 		userVo.setGender(gender);
 		userVo.setPassword(password);
-		
-		//update 성공시 session 업데이트 (단, password가 빈칸이면 안됨)
-		if(!"".equals(password) && new UserDao().update(userVo)) {
-			UserVo updateUserVo = new UserDao().findByEmailAndPassword(email, password);
-			//session의 정보 업데이트!
-			System.out.println("update is ok");
-			HttpSession session = request.getSession();
-			session.setAttribute("authUser",updateUserVo);
-			WebUtil.forward("user/updateform", request, response);
-			return;
-		}
-		
-		// redirect
+
+		new UserDao().update(userVo);
+		authUser.setName(name);
+
 		response.sendRedirect(request.getContextPath() + "/user?a=updateform");
 	}
 

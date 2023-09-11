@@ -4,7 +4,6 @@
 <%@page import="com.poscodx.mysite.dao.UserDao"%>
 <%@page import="com.poscodx.mysite.vo.UserVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<c:set var="userVo" value="${UserDao().findByNo(authUser.no)}"/>
 <!DOCTYPE html>
 <html>
 <head>
