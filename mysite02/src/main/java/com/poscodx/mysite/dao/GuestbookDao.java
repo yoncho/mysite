@@ -13,8 +13,8 @@ import com.poscodx.mysite.vo.GuestbookVo;
 
 public class GuestbookDao {
 	private final String URL = "jdbc:mariadb://192.168.0.181:3307/webdb?charset=utf8";
-	private final String ID = "********";
-	private final String PW = "********";
+	private final String ID = "*******";
+	private final String PW = "*******";
 	
 	public boolean insert(GuestbookVo vo) {
 		Connection conn = null;
@@ -95,7 +95,7 @@ public class GuestbookDao {
 		try {
 			conn = getConnection();
 			
-			String sql = "select no, name, contents, reg_date from guestbook";
+			String sql = "select no, name, contents, reg_date from guestbook order by no desc";
 			pstmt = conn.prepareStatement(sql);
 			rs =  pstmt.executeQuery();
 

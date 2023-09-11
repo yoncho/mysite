@@ -7,9 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.poscodx.mysite.dao.UserDao;
 import com.poscodx.mysite.vo.UserVo;
-import com.poscodx.mysite.web.mvc.utils.WebUtil;
 import com.poscodx.web.mvc.Action;
+import com.poscodx.web.mvc.utils.WebUtil;
 
 public class UpdateformAction implements Action {
 
@@ -24,9 +25,8 @@ public class UpdateformAction implements Action {
 			response.sendRedirect(request.getContextPath()+"/user?=loginform");
 			return;
 		}
-		
+
 		////////////////////////////////// 접근제어로 위 코드가 자주 사용됨.
-		
 		WebUtil.forward("user/updateform", request, response);
 	}
 

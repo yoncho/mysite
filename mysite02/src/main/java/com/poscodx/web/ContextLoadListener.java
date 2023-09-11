@@ -1,12 +1,16 @@
-package com.poscodx.web.mvc;
+package com.poscodx.web;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 public class ContextLoadListener implements ServletContextListener {
 
     public void contextInitialized(ServletContextEvent sce)  { 
-    	System.out.println("application start.....s...");
+    	
+    	ServletContext sc = sce.getServletContext();
+    	String contextConfigLocation = sc.getInitParameter("contextConfigLocation");
+    	System.out.println(contextConfigLocation);
     }
     
     public void contextDestroyed(ServletContextEvent sce)  { 

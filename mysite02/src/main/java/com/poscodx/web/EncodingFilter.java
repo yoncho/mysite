@@ -1,4 +1,4 @@
-package com.poscodx.web.mvc;
+package com.poscodx.web;
 
 import java.io.IOException;
 import javax.servlet.Filter;

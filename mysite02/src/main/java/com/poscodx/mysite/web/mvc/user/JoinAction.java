@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.poscodx.mysite.dao.UserDao;
 import com.poscodx.mysite.vo.UserVo;
-import com.poscodx.mysite.web.mvc.utils.WebUtil;
 import com.poscodx.web.mvc.Action;
+import com.poscodx.web.mvc.utils.WebUtil;
 
 public class JoinAction implements Action {
 

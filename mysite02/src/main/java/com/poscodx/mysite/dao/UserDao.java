@@ -10,8 +10,8 @@ import com.poscodx.mysite.vo.UserVo;
 
 public class UserDao {
 	private final String URL = "jdbc:mariadb://192.168.0.181:3307/webdb?charset=utf8";
-	private final String ID = "********";
-	private final String PW = "********";
+	private final String ID = "*******";
+	private final String PW = "*******";
 	
 	public boolean insert(UserVo vo) {
 		Connection conn = null;
@@ -96,8 +96,8 @@ public class UserDao {
 		return result;
 	}
 	
-	public String findEmailByNo(Long no) {
-		String email = null;
+	public UserVo findByNo(Long no) {
+		UserVo vo = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -105,7 +105,7 @@ public class UserDao {
 		try {
 			conn = getConnection();
 
-			String selectSql = "select email" +
+			String selectSql = "select name, email, gender" +
 					 			" from user " +
 					 			" where no=?";
 			pstmt = conn.prepareStatement(selectSql);
@@ -114,7 +114,15 @@ public class UserDao {
 			
 			rs =  pstmt.executeQuery();
 			if(rs.next()) {
-				email = rs.getString(1);
+				String name = rs.getString(1);
+				String email = rs.getString(2);
+				String gender = rs.getString(3);
+				
+				vo = new UserVo();
+				vo.setName(name);
+				vo.setEmail(email);
+				vo.setGender(gender);
+				vo.setNo(no);
 			}
 		} catch(SQLException e) {
 			System.out.println("error:" + e);
@@ -134,48 +142,7 @@ public class UserDao {
 				e.printStackTrace();
 			}
 		}
-		return email;
-	}
-	
-	public String findGenderByNo(Long no) {
-		String gender = null;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			conn = getConnection();
-
-			String selectSql = "select gender" +
-					 			" from user" +
-					 			" where no=?";
-			pstmt = conn.prepareStatement(selectSql);
-			
-			pstmt.setLong(1, no);
-			
-			rs =  pstmt.executeQuery();
-			if(rs.next()) {
-				gender = rs.getString(1);
-			}
-		} catch(SQLException e) {
-			System.out.println("error:" + e);
-		} finally{
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null && !conn.isClosed())
-				{
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return gender;
+		return vo;
 	}
 	
 	public UserVo findByEmailAndPassword(String email, String password) {
