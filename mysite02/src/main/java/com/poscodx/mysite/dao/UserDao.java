@@ -10,8 +10,8 @@ import com.poscodx.mysite.vo.UserVo;
 
 public class UserDao {
 	private final String URL = "jdbc:mariadb://192.168.0.181:3307/webdb?charset=utf8";
-	private final String ID = "*******";
-	private final String PW = "*******";
+	private final String ID = "********";
+	private final String PW = "********";
 	
 	public boolean insert(UserVo vo) {
 		Connection conn = null;
@@ -21,8 +21,8 @@ public class UserDao {
 		try {
 			conn = getConnection();
 
-			String authorSql = "insert into user values (null,?,?,password(?),?,current_date())";
-			pstmt = conn.prepareStatement(authorSql);
+			String insertSql = "insert into user values (null,?,?,password(?),?,current_date())";
+			pstmt = conn.prepareStatement(insertSql);
 			
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getEmail());
@@ -187,11 +187,11 @@ public class UserDao {
 		try {
 			conn = getConnection();
 			
-			String authorSql = "select no, name" +
+			String selectSql = "select no, name" +
 					 			" from user " +
 					 			" where email=?" + 
 					 			" and password=password(?);";
-			pstmt = conn.prepareStatement(authorSql);
+			pstmt = conn.prepareStatement(selectSql);
 			
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
