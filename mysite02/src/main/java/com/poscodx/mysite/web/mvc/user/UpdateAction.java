@@ -24,7 +24,7 @@ public class UpdateAction implements Action {
 			response.sendRedirect(request.getContextPath() + "/user?=loginform");
 			return;
 		}
-		////////////////////////////////// 접근제어로 위 코드가 자주 사용됨.
+		////////////////////////////////// 접근제어로 위 코드가 자주 사용됨. Filter로 넘기는게 좋음.. 
 
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");

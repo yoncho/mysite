@@ -5,7 +5,7 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%pageContext.setAttribute("newline", "\n");%>
-<c:set var="i" value="${list.size()}" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,11 +37,12 @@
 					</table>
 				</form>
 				<ul>
-					<c:forEach items="${list}" var="vo">
+					<c:set var="count" value="${fn:length(list)}" />
+					<c:forEach items="${list}" var="vo" varStatus="status">
 						<li>
 							<table>
 								<tr>
-									<td>[${i}]</td>
+									<td>[${count-status.index}]</td>
 									<td>${vo.name}</td>
 									<td>${vo.regDate}</td>
 									<td><a href="${pageContext.request.contextPath}/guestbook?a=deleteform&no=${vo.no}>">삭제</a></td>
@@ -49,7 +50,6 @@
 								<tr><td colspan=4>${fn:replace(vo.contents, newline, "<br>")}</tr>
 							</table>
 						</li>
-						<c:set var="i" value="${i-1}"/>
 					</c:forEach>
 				</ul>
 			</div>
