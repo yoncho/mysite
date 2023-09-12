@@ -25,6 +25,11 @@ public class WriteformAction implements Action {
 			return;
 		}
 		
+		String pboard = request.getParameter("pboard");
+		System.out.println(pboard);
+		String user = request.getParameter("user");
+		System.out.println(user);
+		
 		WebUtil.forward("board/write", request, response);
 	}
 

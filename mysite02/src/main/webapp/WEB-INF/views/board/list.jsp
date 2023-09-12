@@ -33,7 +33,7 @@
 						<tr>
 							<td>${status.count}</td>
 							<td style="padding-left:${(vo.depth - 1) * 30 }px">
-							<a href="${pageContext.request.contextPath}/board?a=view&board=${vo.no}&writer=${vo.userNo}">${vo.title}</a></td>
+							<a href="${pageContext.request.contextPath}/board?a=view&board=${vo.no}&writer=${vo.userNo}&user=${no}">${vo.title}</a></td>
 							<td>${vo.userName}</td>
 							<td>${vo.hit}</td>
 							<td>${vo.regDate}</td>
@@ -61,7 +61,7 @@
 
 				<div class="bottom">
 					<c:if test="${isAuth eq true}">
-						<a href="${pageContext.request.contextPath}/board?a=writeform&no=${no}" id="new-book">글쓰기</a>
+						<a href="${pageContext.request.contextPath}/board?a=writeform&user=${no}" id="new-book">글쓰기</a>
 					</c:if>
 				</div>
 			</div>

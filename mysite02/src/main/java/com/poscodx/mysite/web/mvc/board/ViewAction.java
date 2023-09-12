@@ -35,7 +35,6 @@ public class ViewAction implements Action {
 		
 		String boardNo = request.getParameter("board");
 		BoardVo board = new BoardDao().findByNo(Integer.parseInt(boardNo));
-		
 		request.setAttribute("board", board);
 		request.setAttribute("isAuthUser", isAuthUser);
 		request.setAttribute("isWriter", isWriter);

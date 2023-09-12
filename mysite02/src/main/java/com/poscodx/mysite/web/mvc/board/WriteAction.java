@@ -14,26 +14,30 @@ public class WriteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String no = request.getParameter("userNo");
-		String gNo = request.getParameter("gNo");
-		String oNo = request.getParameter("oNo");
-		String depth = request.getParameter("depth");
+		String pboard = request.getParameter("pboard");
 		
+		System.out.println("====================================");
+		System.out.println("부모 보드 : " + pboard);
+		System.out.println("제목 : " + title);
+		System.out.println("사용자 PK : " + no);
+		System.out.println("====================================");
+
 		BoardVo vo = new BoardVo();
 		vo.setTitle(title);
 		vo.setContents(content);
 		vo.setUserNo(Integer.parseInt(no));
-		if(gNo == null) {
+		if(pboard == null || pboard =="") {
 			vo.setGno(new BoardDao().findLastNoOfGroup() + 1);
 			vo.setOno(1);
 			vo.setDepth(1);
 		}else {
-			vo.setGno(Integer.parseInt(gNo));
-			vo.setOno(2);
-			vo.setDepth(2);
+			BoardVo pVo = new BoardDao().findByNo(Integer.parseInt(pboard));
+			vo.setGno(pVo.getGno());
+			vo.setOno(pVo.getOno()+1);
+			vo.setDepth(pVo.getDepth() + 1);
 		}
 		//insert
 		new BoardDao().insert(vo);

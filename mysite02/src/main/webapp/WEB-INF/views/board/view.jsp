@@ -38,9 +38,8 @@
 						<a href="${pageContext.request.contextPath}/board?a=modifyform&board=${board.no}">글수정</a>
 					</c:if>
 					<c:if test="${isAuthUser eq true}">
-						<a href="${pageContext.request.contextPath}/board?a=modifyform&board=${board.no}">댓글 작성</a>
+						<a href="${pageContext.request.contextPath}/board?a=writeform&user=${param.user}&pboard=${board.no}">댓글 작성</a>
 					</c:if>
-					
 				</div>
 			</div>
 		</div>
