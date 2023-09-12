@@ -19,7 +19,6 @@ public class IndexAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<GuestbookVo> list = new GuestbookDao().findAll();
 		request.setAttribute("list", list);
-		WebUtil.forward("guestbook/index", request, response);
+		WebUtil.forward("guestbook/list", request, response);
 	}
-
 }

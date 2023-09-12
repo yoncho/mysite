@@ -21,9 +21,8 @@ public class MainController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String actionName = request.getParameter("a");
-	 	Action action = new MainActionFactory().getAction(actionName);
+		Action action = new MainActionFactory().getAction(actionName);
 	 	action.execute(request, response);
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
