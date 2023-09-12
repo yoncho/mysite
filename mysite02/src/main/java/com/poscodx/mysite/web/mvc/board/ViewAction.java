@@ -22,10 +22,13 @@ public class ViewAction implements Action {
 		// Access Control
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		boolean isAuth = false;
+		boolean isAuthUser = false;
+		boolean isWriter = false;
+		
 		if (authUser != null) {
+			isAuthUser = true;
 			if(authUser.getNo() == Integer.parseInt(request.getParameter("writer"))) {
-				isAuth = true;
+				isWriter = true;
 			}
 			request.setAttribute("no", authUser.getNo());
 		}
@@ -34,8 +37,8 @@ public class ViewAction implements Action {
 		BoardVo board = new BoardDao().findByNo(Integer.parseInt(boardNo));
 		
 		request.setAttribute("board", board);
-		request.setAttribute("isAuth", isAuth);
+		request.setAttribute("isAuthUser", isAuthUser);
+		request.setAttribute("isWriter", isWriter);
 		WebUtil.forward("board/view", request, response);
 	}
-
 }
