@@ -36,12 +36,20 @@
 							<c:if test="${vo.depth > 1}">
 								<img src="${pageContext.request.contextPath}/assets/images/reply.png">
 							</c:if>
-							<a href="${pageContext.request.contextPath}/board?a=view&board=${vo.no}&writer=${vo.userNo}&user=${no}">${vo.title}</a></td>
+							<c:choose>
+								<c:when test="${vo.state eq 'active'}">
+									<a href="${pageContext.request.contextPath}/board?a=view&board=${vo.no}&writer=${vo.userNo}&user=${no}">${vo.title}</a>
+								</c:when>
+								<c:otherwise>
+									<a href="">삭제된 글 입니다.</a>
+								</c:otherwise>
+							</c:choose>
+							</td>
 							<td>${vo.userName}</td>
 							<td>${vo.hit}</td>
 							<td>${vo.regDate}</td>
 							<td>
-							<c:if test="${no == vo.userNo}">
+							<c:if test="${no == vo.userNo and vo.state eq 'active'}">
 								<a href="${pageContext.request.contextPath}/board?a=delete&board=${vo.no}" class="del">삭제</a>
 							</c:if>
 							</td>

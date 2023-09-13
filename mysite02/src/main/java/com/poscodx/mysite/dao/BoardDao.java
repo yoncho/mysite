@@ -36,7 +36,7 @@ public class BoardDao {
 			
 			//2. Insert
 			String authorSql 
-				= "insert into board values (null,?,?,?,current_date(),?,?,?,?)";
+				= "insert into board values (null,?,?,?,current_date(),?,?,?,?,?)";
 			pstmt = conn.prepareStatement(authorSql);
 			
 			pstmt.setString(1, vo.getTitle());
@@ -46,6 +46,7 @@ public class BoardDao {
 			pstmt.setInt(5, vo.getOno());
 			pstmt.setInt(6, vo.getDepth());			
 			pstmt.setInt(7, vo.getUserNo());
+			pstmt.setString(8, "active");
 			
 			result =  pstmt.executeUpdate() == 1;
 		} catch(SQLException e) {
@@ -75,8 +76,11 @@ public class BoardDao {
 		try {
 			conn = getConnection();
 
-			String deleteSql = "delete from board where no=?";
-			pstmt = conn.prepareStatement(deleteSql);
+//			String deleteSql = "delete from board where no=?";
+//			pstmt = conn.prepareStatement(deleteSql);
+//			
+			String updateStateSql = "update board set state='deactive' where no=?";
+			pstmt = conn.prepareStatement(updateStateSql);
 			
 			pstmt.setInt(1, boardNo);
 			
@@ -148,7 +152,7 @@ public class BoardDao {
 			conn = getConnection();
 			
 			String selectSql
-				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, u.name"
+				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, b.state,u.name"
 						+ " from board b, user u"
 						+ " where b.user_no=u.no"
 						+ " order by g_no desc, o_no asc";
@@ -165,7 +169,8 @@ public class BoardDao {
 				int oNo = rs.getInt(7);
 				int depth = rs.getInt(8);
 				int userNo = rs.getInt(9);
-				String userName = rs.getString(10);
+				String state = rs.getString(10);
+				String userName = rs.getString(11);
 				
 				BoardVo vo = new BoardVo();			
 				vo.setNo(no);
@@ -177,6 +182,7 @@ public class BoardDao {
 				vo.setOno(oNo);
 				vo.setDepth(depth);
 				vo.setUserNo(userNo);
+				vo.setState(state);
 				vo.setUserName(userName);
 				result.add(vo);
 			}
@@ -243,7 +249,7 @@ public class BoardDao {
 			conn = getConnection();
 			
 			String selectSql
-				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, u.name"
+				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, b.state, u.name"
 						+ " from board b, user u"
 						+ " where b.user_no=u.no"
 						+ " order by g_no desc, o_no asc"
@@ -263,7 +269,8 @@ public class BoardDao {
 				int oNo = rs.getInt(7);
 				int depth = rs.getInt(8);
 				int userNo = rs.getInt(9);
-				String userName = rs.getString(10);
+				String state = rs.getString(10);
+				String userName = rs.getString(11);
 				
 				BoardVo vo = new BoardVo();			
 				vo.setNo(no);
@@ -275,6 +282,7 @@ public class BoardDao {
 				vo.setOno(oNo);
 				vo.setDepth(depth);
 				vo.setUserNo(userNo);
+				vo.setState(state);
 				vo.setUserName(userName);
 				result.add(vo);
 			}
@@ -310,7 +318,7 @@ public class BoardDao {
 			conn = getConnection();
 			
 			String selectSql
-				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, u.name"
+				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, b.state, u.name"
 						+ " from board b, user u, (select g_no as m_g_no from board where title like ? and o_no=1) as m"
 						+ " where b.user_no=u.no"
 						+ " and b.g_no=m.m_g_no"
@@ -331,7 +339,8 @@ public class BoardDao {
 				int oNo = rs.getInt(7);
 				int depth = rs.getInt(8);
 				int userNo = rs.getInt(9);
-				String userName = rs.getString(10);
+				String state = rs.getString(10);
+				String userName = rs.getString(11);
 				
 				BoardVo vo = new BoardVo();			
 				vo.setNo(no);
@@ -343,6 +352,7 @@ public class BoardDao {
 				vo.setOno(oNo);
 				vo.setDepth(depth);
 				vo.setUserNo(userNo);
+				vo.setState(state);
 				vo.setUserName(userName);
 				result.add(vo);
 			}
@@ -377,7 +387,7 @@ public class BoardDao {
 			conn = getConnection();
 			
 			String selectSql
-				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, u.name from board b, user u where b.no=?";
+				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, b.state ,u.name from board b, user u where b.no=?";
 			pstmt = conn.prepareStatement(selectSql);
 			pstmt.setInt(1, boardNo);
 			rs =  pstmt.executeQuery();
@@ -392,7 +402,8 @@ public class BoardDao {
 				int oNo = rs.getInt(7);
 				int depth = rs.getInt(8);
 				int userNo = rs.getInt(9);
-				String userName = rs.getString(10);
+				String state = rs.getString(10);
+				String userName = rs.getString(11);
 				
 				result = new BoardVo();			
 				result.setNo(no);
@@ -404,6 +415,7 @@ public class BoardDao {
 				result.setOno(oNo);
 				result.setDepth(depth);
 				result.setUserNo(userNo);
+				result.setState(state);
 				result.setUserName(userName);
 			}
 		} catch(SQLException e) {

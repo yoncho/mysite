@@ -13,7 +13,14 @@ public class BoardVo {
 	private int depth;
 	private int userNo;
 	private String userName;
+	private String state;
 	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public String getUserName() {
 		return userName;
 	}
