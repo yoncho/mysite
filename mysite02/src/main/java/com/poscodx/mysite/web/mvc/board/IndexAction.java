@@ -17,7 +17,7 @@ import com.poscodx.web.mvc.Action;
 import com.poscodx.web.mvc.utils.WebUtil;
 
 public class IndexAction implements Action {
-	private int boardCountPerPage = 4;
+	private int boardCountPerPage = 8;
 	private int pagePerStep = 5;
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,5 +57,4 @@ public class IndexAction implements Action {
 		System.out.println();
 		return vo;
 	}
-	
 }
