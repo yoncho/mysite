@@ -10,8 +10,8 @@ import com.poscodx.mysite.vo.UserVo;
 
 public class UserDao {
 	private final String URL = "jdbc:mariadb://192.168.0.181:3307/webdb?charset=utf8";
-	private final String ID = "********";     
-	private final String PW = "********";  
+	private final String ID = "yoncho";     
+	private final String PW = "tkaak1212";  
 	
 	public boolean insert(UserVo vo) {
 		Connection conn = null;

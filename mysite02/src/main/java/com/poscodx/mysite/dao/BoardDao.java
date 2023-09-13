@@ -14,8 +14,8 @@ import com.poscodx.mysite.vo.GuestbookVo;
 
 public class BoardDao {
 	private final String URL = "jdbc:mariadb://192.168.0.181:3307/webdb?charset=utf8";
-	private final String ID = "********";
-	private final String PW = "********";
+	private final String ID = "yoncho";
+	private final String PW = "tkaak1212";
 	
 	public boolean insert(BoardVo vo) {
 		Connection conn = null;
@@ -149,7 +149,10 @@ public class BoardDao {
 			conn = getConnection();
 			
 			String selectSql
-				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, u.name from board b, user u where b.user_no=u.no";
+				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, u.name"
+						+ " from board b, user u"
+						+ " where b.user_no=u.no"
+						+ " order by g_no desc, o_no asc";
 			pstmt = conn.prepareStatement(selectSql);
 			rs =  pstmt.executeQuery();
 			
@@ -231,7 +234,7 @@ public class BoardDao {
 		return result;
 	}
 	
-	public BoardVo findByNo(int parseInt) {
+	public BoardVo findByNo(int boardNo) {
 		BoardVo result = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -241,8 +244,9 @@ public class BoardDao {
 			conn = getConnection();
 			
 			String selectSql
-				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, u.name from board b, user u where b.user_no=u.no";
+				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, u.name from board b, user u where b.no=?";
 			pstmt = conn.prepareStatement(selectSql);
+			pstmt.setInt(1, boardNo);
 			rs =  pstmt.executeQuery();
 			
 			if (rs.next()) {
