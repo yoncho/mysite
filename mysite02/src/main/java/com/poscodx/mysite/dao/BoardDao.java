@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.poscodx.mysite.vo.BoardVo;
-import com.poscodx.mysite.vo.GuestbookVo;
 
 public class BoardDao {
 	private final String URL = "jdbc:mariadb://192.168.0.181:3307/webdb?charset=utf8";
@@ -233,6 +232,72 @@ public class BoardDao {
 		}
 		return result;
 	}
+
+	public List<BoardVo> findByRange(int boardCountPerPage ,int currentPage) {
+		List<BoardVo> result = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			
+			String selectSql
+				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, u.name"
+						+ " from board b, user u"
+						+ " where b.user_no=u.no"
+						+ " order by g_no desc, o_no asc"
+						+ " limit ?, ?";
+			pstmt = conn.prepareStatement(selectSql);
+			pstmt.setInt(1, (currentPage - 1)*boardCountPerPage);
+			pstmt.setInt(2, boardCountPerPage);
+			rs =  pstmt.executeQuery();
+			
+			while (rs.next()) {
+				int no = rs.getInt(1);
+				String title = rs.getString(2);
+				String contents = rs.getString(3);
+				int hit = rs.getInt(4);
+				Date regDate = rs.getDate(5);
+				int gNo = rs.getInt(6);
+				int oNo = rs.getInt(7);
+				int depth = rs.getInt(8);
+				int userNo = rs.getInt(9);
+				String userName = rs.getString(10);
+				
+				BoardVo vo = new BoardVo();			
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setContents(contents);
+				vo.setHit(hit);
+				vo.setRegDate(regDate);
+				vo.setGno(gNo);
+				vo.setOno(oNo);
+				vo.setDepth(depth);
+				vo.setUserNo(userNo);
+				vo.setUserName(userName);
+				result.add(vo);
+			}
+		} catch(SQLException e) {
+			System.out.println("error:" + e);
+		} finally{
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null && !conn.isClosed())
+				{
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 	
 	public BoardVo findByNo(int boardNo) {
 		BoardVo result = null;
@@ -293,6 +358,44 @@ public class BoardDao {
 		}
 		return result;
 	}
+	
+	public int findTotalCount() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = -1;
+		try {
+			conn = getConnection();
+			
+			String selectSql
+				= "select count(*) from board";
+			pstmt = conn.prepareStatement(selectSql);
+			rs =  pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch(SQLException e) {
+			System.out.println("error:" + e);
+		} finally{
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null && !conn.isClosed())
+				{
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
 	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;

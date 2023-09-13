@@ -51,13 +51,15 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+						<c:if test="${page.beforePage > 0}">
+							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${page.beforePage}">◀</a></li>
+						</c:if>
+						<c:forEach begin="${page.startPage}" end="${page.endPage}" step="1" var="i">
+							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${i}">${i}</a></li>
+						</c:forEach>
+						<c:if test="${page.nextPage > 0}">
+							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${page.nextPage}">▶</a></li>
+						</c:if>
 					</ul>
 				</div>
 				<!-- pager 추가 -->
