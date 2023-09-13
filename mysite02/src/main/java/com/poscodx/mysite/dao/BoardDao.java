@@ -321,6 +321,7 @@ public class BoardDao {
 				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, b.state, u.name"
 						+ " from board b, user u, (select g_no as m_g_no from board where title like ? and o_no=1) as m"
 						+ " where b.user_no=u.no"
+						+ " and b.state='active'"
 						+ " and b.g_no=m.m_g_no"
 						+ " order by g_no desc, o_no asc";
 			pstmt = conn.prepareStatement(selectSql);
@@ -488,7 +489,8 @@ public class BoardDao {
 			String selectSql
 				= "select count(*)"
 				+ " from board"
-				+ " where title like ?";
+				+ " where title like ?"
+				+ " and state='active'";
 			pstmt = conn.prepareStatement(selectSql);
 			pstmt.setString(1, "%"+kwd+"%");
 			rs =  pstmt.executeQuery();
