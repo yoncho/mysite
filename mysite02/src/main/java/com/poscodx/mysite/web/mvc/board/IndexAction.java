@@ -30,6 +30,8 @@ public class IndexAction implements Action {
 			isAuth = true;
 			request.setAttribute("no", authUser.getNo());
 		}
+		
+		
 		String stringCurrentPage = (String)request.getParameter("page");
 		int currentPage = stringCurrentPage == null ? 1 : Integer.parseInt(stringCurrentPage);
 		int totalBoardCount = new BoardDao().findTotalCount();
@@ -45,6 +47,7 @@ public class IndexAction implements Action {
 	
 		//auth
 		request.setAttribute("isAuth", isAuth);
+		
 		WebUtil.forward("board/list", request, response);
 	}
 

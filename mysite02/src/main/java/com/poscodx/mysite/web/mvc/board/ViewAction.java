@@ -34,10 +34,15 @@ public class ViewAction implements Action {
 		}
 		
 		String boardNo = request.getParameter("board");
+		//update hit
+		new BoardDao().upHitByNo(Integer.parseInt(boardNo));
+		
+		//select Board 
 		BoardVo board = new BoardDao().findByNo(Integer.parseInt(boardNo));
 		request.setAttribute("board", board);
 		request.setAttribute("isAuthUser", isAuthUser);
 		request.setAttribute("isWriter", isWriter);
+		
 		WebUtil.forward("board/view", request, response);
 	}
 }

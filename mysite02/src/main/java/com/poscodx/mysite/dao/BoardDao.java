@@ -395,7 +395,41 @@ public class BoardDao {
 		}
 		return result;
 	}
-	
+
+	public boolean upHitByNo(int boardNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		boolean result = false;
+		
+		try {
+			conn = getConnection();
+
+			String updateQuery = "update board"
+								+ " set hit=hit+1"
+								+ " where no=?";
+			pstmt = conn.prepareStatement(updateQuery);
+			
+			pstmt.setInt(1, boardNo);
+			
+			result =  pstmt.executeUpdate() == 1;
+		} catch(SQLException e) {
+			System.out.println("error:" + e);
+		} finally{
+			try {
+				//5. 자원 정리
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null && !conn.isClosed())
+				{
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
