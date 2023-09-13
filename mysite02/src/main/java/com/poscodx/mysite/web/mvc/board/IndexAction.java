@@ -31,18 +31,26 @@ public class IndexAction implements Action {
 			request.setAttribute("no", authUser.getNo());
 		}
 		
-		
 		String stringCurrentPage = (String)request.getParameter("page");
 		int currentPage = stringCurrentPage == null ? 1 : Integer.parseInt(stringCurrentPage);
-		int totalBoardCount = new BoardDao().findTotalCount();
-
+		int totalBoardCount = 0;
+		List<BoardVo> list = new ArrayList();
+		
+		String keyword = request.getParameter("kwd");
+		if(keyword == null || keyword.isEmpty()) {
+			totalBoardCount = new BoardDao().findTotalCount();
+			list = pageBoardList(currentPage);
+		}else {
+			totalBoardCount = new BoardDao().findTotalCountByKeyword(keyword);
+			list = pageBoardListByKeyword(currentPage, keyword);
+		}
+		
 		//paging
 		int totalPageCount =(int) Math.ceil((double)totalBoardCount / (double)boardCountPerPage);
 		PagingVo page = paging(currentPage, totalPageCount, pagePerStep);
 		request.setAttribute("page", page);
 		
 		//boardPerPage (current)
-		List<BoardVo> list = pageBoardList(currentPage);
 		request.setAttribute("list", list);
 	
 		//auth
@@ -53,6 +61,10 @@ public class IndexAction implements Action {
 
 	public List<BoardVo> pageBoardList(int currentPage){
 		return new BoardDao().findByRange(boardCountPerPage, currentPage);
+	}
+	
+	public List<BoardVo> pageBoardListByKeyword(int currentPage, String keyword){
+		return new BoardDao().findByRangeAndKeyword(boardCountPerPage, currentPage, keyword);
 	}
 	
 	public PagingVo paging(int currentPage, int totalPage, int pagePerStep) {

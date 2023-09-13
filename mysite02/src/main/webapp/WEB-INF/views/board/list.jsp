@@ -16,9 +16,9 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="" method="post">
-					<input type="text" id="kwd" name="kwd" value=""> <input
-						type="submit" value="찾기">
+				<form id="search_form" action="${pageContext.request.contextPath}/board" method="post">
+					<input type="text" id="kwd" name="kwd" value="${param.kwd}"> 
+					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
 					<tr>
@@ -52,13 +52,13 @@
 				<div class="pager">
 					<ul>
 						<c:if test="${page.beforePage > 0}">
-							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${page.beforePage}">◀</a></li>
+							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${page.beforePage}&kwd=${param.kwd}">◀</a></li>
 						</c:if>
 						<c:forEach begin="${page.startPage}" end="${page.endPage}" step="1" var="i">
-							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${i}">${i}</a></li>
+							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${i}&kwd=${param.kwd}">${i}</a></li>
 						</c:forEach>
 						<c:if test="${page.nextPage > 0}">
-							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${page.nextPage}">▶</a></li>
+							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${page.nextPage}&kwd=${param.kwd}">▶</a></li>
 						</c:if>
 					</ul>
 				</div>

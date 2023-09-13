@@ -35,7 +35,7 @@ public class ViewAction implements Action {
 		
 		String boardNo = request.getParameter("board");
 		//update hit
-		new BoardDao().upHitByNo(Integer.parseInt(boardNo));
+		new BoardDao().updateHitByNo(Integer.parseInt(boardNo));
 		
 		//select Board 
 		BoardVo board = new BoardDao().findByNo(Integer.parseInt(boardNo));

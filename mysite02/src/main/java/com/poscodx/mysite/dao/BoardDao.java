@@ -299,6 +299,74 @@ public class BoardDao {
 		return result;
 	}
 	
+
+	public List<BoardVo> findByRangeAndKeyword(int boardCountPerPage, int currentPage, String keyword) {
+		List<BoardVo> result = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			
+			String selectSql
+				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, u.name"
+						+ " from board b, user u, (select g_no as m_g_no from board where title like ? and o_no=1) as m"
+						+ " where b.user_no=u.no"
+						+ " and b.g_no=m.m_g_no"
+						+ " order by g_no desc, o_no asc";
+			pstmt = conn.prepareStatement(selectSql);
+			pstmt.setString(1, "%"+keyword+"%");
+			pstmt.setInt(2, (currentPage - 1)*boardCountPerPage);
+			pstmt.setInt(3, boardCountPerPage);
+			rs =  pstmt.executeQuery();
+			
+			while (rs.next()) {
+				int no = rs.getInt(1);
+				String title = rs.getString(2);
+				String contents = rs.getString(3);
+				int hit = rs.getInt(4);
+				Date regDate = rs.getDate(5);
+				int gNo = rs.getInt(6);
+				int oNo = rs.getInt(7);
+				int depth = rs.getInt(8);
+				int userNo = rs.getInt(9);
+				String userName = rs.getString(10);
+				
+				BoardVo vo = new BoardVo();			
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setContents(contents);
+				vo.setHit(hit);
+				vo.setRegDate(regDate);
+				vo.setGno(gNo);
+				vo.setOno(oNo);
+				vo.setDepth(depth);
+				vo.setUserNo(userNo);
+				vo.setUserName(userName);
+				result.add(vo);
+			}
+		} catch(SQLException e) {
+			System.out.println("error:" + e);
+		} finally{
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null && !conn.isClosed())
+				{
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
 	public BoardVo findByNo(int boardNo) {
 		BoardVo result = null;
 		Connection conn = null;
@@ -396,7 +464,48 @@ public class BoardDao {
 		return result;
 	}
 
-	public boolean upHitByNo(int boardNo) {
+
+	public int findTotalCountByKeyword(String kwd) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = -1;
+		try {
+			conn = getConnection();
+			
+			String selectSql
+				= "select count(*)"
+				+ " from board"
+				+ " where title like ?";
+			pstmt = conn.prepareStatement(selectSql);
+			pstmt.setString(1, "%"+kwd+"%");
+			rs =  pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch(SQLException e) {
+			System.out.println("error:" + e);
+		} finally{
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null && !conn.isClosed())
+				{
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public boolean updateHitByNo(int boardNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean result = false;
