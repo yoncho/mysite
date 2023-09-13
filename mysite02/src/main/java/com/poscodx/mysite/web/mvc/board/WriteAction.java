@@ -36,7 +36,7 @@ public class WriteAction implements Action {
 		}else {
 			BoardVo pVo = new BoardDao().findByNo(Integer.parseInt(pboard));
 			vo.setGno(pVo.getGno());
-			vo.setOno(pVo.getOno()+1);
+			vo.setOno(pVo.getOno() + 1);
 			vo.setDepth(pVo.getDepth() + 1);
 		}
 		//insert
