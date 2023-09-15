@@ -13,6 +13,7 @@ public class PagingVo {
 		this.totalPage = totalPage;
 		this.currentPage = currentPage;
 		this.pagePerStep = pagePerStep;
+		
 		settingPagingInfo();
 	}
 	public int getPagePerStep() {
