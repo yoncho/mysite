@@ -8,11 +8,14 @@ public class PagingVo {
 	private int nextPage;
 	private int totalPage;
 	private int pagePerStep;
-	
-	public PagingVo(int totalPage, int currentPage, int pagePerStep) {
-		this.totalPage = totalPage;
+	private int boardCountPerPage;
+	private int totalBoardCount;
+	private int boardStartNoPerPage;
+	public PagingVo(int totalBoardCount, int currentPage, int pagePerStep, int boardCountPerPage) {
+		this.totalBoardCount = totalBoardCount;
 		this.currentPage = currentPage;
 		this.pagePerStep = pagePerStep;
+		this.boardCountPerPage = boardCountPerPage;
 		
 		settingPagingInfo();
 	}
@@ -52,6 +55,24 @@ public class PagingVo {
 	public int getBeforePage() {
 		return beforePage;
 	}
+	public int getBoardCountPerPage() {
+		return boardCountPerPage;
+	}
+	public void setBoardCountPerPage(int boardCountPerPage) {
+		this.boardCountPerPage = boardCountPerPage;
+	}
+	public int getTotalBoardCount() {
+		return totalBoardCount;
+	}
+	public void setTotalBoardCount(int totalBoardCount) {
+		this.totalBoardCount = totalBoardCount;
+	}
+	public int getBoardStartNoPerPage() {
+		return boardStartNoPerPage;
+	}
+	public void setBoardStartNoPerPage(int boardStartNoPerPage) {
+		this.boardStartNoPerPage = boardStartNoPerPage;
+	}
 	public void setBeforePage(int beforePage) {
 		this.beforePage = beforePage;
 	}
@@ -63,10 +84,13 @@ public class PagingVo {
 	}
 	
 	public void settingPagingInfo() {
+		totalPage =(int) Math.ceil((double)totalBoardCount / (double)boardCountPerPage);
 		int stepNo = (int)Math.ceil((double)currentPage / (double)pagePerStep);
-		this.startPage = (stepNo - 1) * pagePerStep + 1;
-		this.endPage = (startPage + pagePerStep - 1)> totalPage ? totalPage:(startPage + pagePerStep - 1);
-		this.beforePage = startPage > pagePerStep ? startPage - 1:0;
-		this.nextPage = endPage < totalPage ? endPage + 1: 0;
+		startPage = (stepNo - 1) * pagePerStep + 1;
+		endPage = (startPage + pagePerStep - 1)> totalPage ? totalPage:(startPage + pagePerStep - 1);
+		beforePage = startPage > pagePerStep ? startPage - 1:0;
+		nextPage = endPage < totalPage ? endPage + 1: 0;
+		boardStartNoPerPage = totalBoardCount - (currentPage - 1)*boardCountPerPage;
+		System.out.println(boardStartNoPerPage);
 	}
 }

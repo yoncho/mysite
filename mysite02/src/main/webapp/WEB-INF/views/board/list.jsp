@@ -31,7 +31,7 @@
 					</tr>
 					<c:forEach items="${list}" var="vo" varStatus="status">
 						<tr>
-							<td>${status.count}</td>
+							<td>${page.boardStartNoPerPage - status.index}</td>
 							<td style="padding-left:${(vo.depth - 1) * 30 }px">
 							<c:if test="${vo.depth > 1}">
 								<img src="${pageContext.request.contextPath}/assets/images/reply.png">

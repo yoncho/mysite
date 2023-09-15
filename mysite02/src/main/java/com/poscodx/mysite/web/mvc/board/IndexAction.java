@@ -46,8 +46,13 @@ public class IndexAction implements Action {
 		}
 		
 		//paging
-		int totalPageCount =(int) Math.ceil((double)totalBoardCount / (double)boardCountPerPage);
-		PagingVo page = paging(currentPage, totalPageCount, pagePerStep);
+		/*
+		 * totalBoardCount : 총 작성된 글의 수
+		 * currentPage : 현재 page 번호
+		 * pagePerStep : 한번에 몇개의 page를 보여줄 것인지 (ex: 1 2 3 4 5 > 이렇게면 5개)
+		 * boardCountPerPage : 한 page에 표시할 글의 수
+		 * */
+		PagingVo page = paging(totalBoardCount, currentPage, pagePerStep, boardCountPerPage);
 		request.setAttribute("page", page);
 		
 		//boardPerPage (current)
@@ -67,9 +72,8 @@ public class IndexAction implements Action {
 		return new BoardDao().findByRangeAndKeyword(boardCountPerPage, currentPage, keyword);
 	}
 	
-	public PagingVo paging(int currentPage, int totalPage, int pagePerStep) {
-		PagingVo vo = new PagingVo(totalPage, currentPage, pagePerStep);
-		System.out.println();
+	public PagingVo paging(int totalBoardCount,int currentPage,int pagePerStep,int boardCountPerPage) {
+		PagingVo vo = new PagingVo(totalBoardCount, currentPage, pagePerStep, boardCountPerPage);
 		return vo;
 	}
 }
