@@ -17,9 +17,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="guestbook">
-				<form action="${pageContext.request.contextPath}/guestbook"
-					method="post">
-					<input type="hidden" name="a" value="insert">
+				<form action="${pageContext.request.contextPath}/guestbook/add" method="post">
 					<table>
 						<tr>
 							<td>이름</td>
@@ -28,7 +26,7 @@
 							<td><input type="password" name="password"></td>
 						</tr>
 						<tr>
-							<td colspan=4><textarea name="content" id="content"></textarea></td>
+							<td colspan=4><textarea name="contents" id="content"></textarea></td>
 						</tr>
 						<tr>
 							<td colspan=4 align=right><input type="submit" VALUE=" 확인 "></td>
@@ -44,7 +42,7 @@
 									<td>[${count-status.index}]</td>
 									<td>${vo.name}</td>
 									<td>${vo.regDate}</td>
-									<td><a href="${pageContext.request.contextPath}/guestbook?a=deleteform&no=${vo.no}>">삭제</a></td>
+									<td><a href="${pageContext.request.contextPath}/guestbook/delete/${vo.no}">삭제</a></td>
 								</tr>
 								<tr><td colspan=4>${fn:replace(vo.contents, newline, "<br>")}</tr>
 							</table>
