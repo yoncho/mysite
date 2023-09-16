@@ -318,12 +318,12 @@ public class BoardDao {
 			conn = getConnection();
 			
 			String selectSql
-				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, b.state, u.name"
-						+ " from board b, user u, (select g_no as m_g_no from board where title like ? and o_no=1) as m"
+				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, b.state, u.name "
+						+ "from board b, user u, (select g_no as m_g_no from board where title like ? and o_no=1) as m"
 						+ " where b.user_no=u.no"
-						+ " and b.state='active'"
 						+ " and b.g_no=m.m_g_no"
-						+ " order by g_no desc, o_no asc";
+						+ " order by g_no desc, o_no asc"
+						+ " limit ?, ?";
 			pstmt = conn.prepareStatement(selectSql);
 			pstmt.setString(1, "%"+keyword+"%");
 			pstmt.setInt(2, (currentPage - 1)*boardCountPerPage);
@@ -487,10 +487,9 @@ public class BoardDao {
 			conn = getConnection();
 			
 			String selectSql
-				= "select count(*)"
-				+ " from board"
-				+ " where title like ?"
-				+ " and state='active'";
+				= "select count(*) "
+				+ "from board b, (select g_no as s_g_no from board where title like ? and o_no=1) as subq "
+				+ "where g_no=subq.s_g_no";
 			pstmt = conn.prepareStatement(selectSql);
 			pstmt.setString(1, "%"+kwd+"%");
 			rs =  pstmt.executeQuery();

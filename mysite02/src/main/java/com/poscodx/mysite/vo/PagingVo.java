@@ -91,6 +91,5 @@ public class PagingVo {
 		beforePage = startPage > pagePerStep ? startPage - 1:0;
 		nextPage = endPage < totalPage ? endPage + 1: 0;
 		boardStartNoPerPage = totalBoardCount - (currentPage - 1)*boardCountPerPage;
-		System.out.println(boardStartNoPerPage);
 	}
 }

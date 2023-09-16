@@ -56,9 +56,13 @@ public class IndexAction implements Action {
 		PagingVo page = paging(totalBoardCount, currentPage, pagePerStep, boardCountPerPage);
 		request.setAttribute("page", page);
 		
+		System.out.println("total page count" + page.getTotalPage());
+		System.out.println("total board count" + page.getTotalBoardCount() + "|" + list.size());
+		System.out.println(page.getCurrentPage());
+		
 		//boardPerPage (current)
 		request.setAttribute("list", list);
-	
+		
 		//auth
 		request.setAttribute("isAuth", isAuth);
 		
