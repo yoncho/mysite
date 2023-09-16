@@ -52,6 +52,7 @@ public class IndexAction implements Action {
 		 * pagePerStep : 한번에 몇개의 page를 보여줄 것인지 (ex: 1 2 3 4 5 > 이렇게면 5개)
 		 * boardCountPerPage : 한 page에 표시할 글의 수
 		 * */
+		System.out.println("totalBoardCount:" + totalBoardCount);
 		PagingVo page = paging(totalBoardCount, currentPage, pagePerStep, boardCountPerPage);
 		request.setAttribute("page", page);
 		
