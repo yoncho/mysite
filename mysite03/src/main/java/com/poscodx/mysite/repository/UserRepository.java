@@ -63,21 +63,21 @@ public class UserRepository {
 			if("".equals(vo.getPassword())) {
 				updateSql = "update user"
 						+ " set name=?, gender=?"
-						+ " where email=?";
+						+ " where no=?";
 				pstmt = conn.prepareStatement(updateSql);
 				
 				pstmt.setString(1, vo.getName());
 				pstmt.setString(2, vo.getGender());
-				pstmt.setString(3, vo.getEmail());
+				pstmt.setLong(3, vo.getNo());
 			}else {
 				updateSql = "update user"
 						+ " set name=?, password=password(?),gender=?"
-						+ " where email=?";
+						+ " where no=?";
 				pstmt = conn.prepareStatement(updateSql);
 				pstmt.setString(1, vo.getName());
 				pstmt.setString(2, vo.getPassword());
 				pstmt.setString(3, vo.getGender());
-				pstmt.setString(4, vo.getEmail());
+				pstmt.setLong(4, vo.getNo());
 			}
 			result =  pstmt.executeUpdate() == 1;
 		} catch(SQLException e) {
