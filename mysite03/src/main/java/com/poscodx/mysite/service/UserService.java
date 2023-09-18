@@ -15,7 +15,9 @@ public class UserService {
 //	private MailSender mailSender;
 	
 	public void join(UserVo vo) {
+		System.out.println(vo);
 		userRepository.insert(vo);
+		System.out.println(vo);
 //		mailSender.send(vo.getEmail(), "", "");
 	}
 
