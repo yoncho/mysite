@@ -82,6 +82,7 @@ public class BoardController {
 			vo.setOno(pVo.getOno() + 1);
 			vo.setDepth(pVo.getDepth() + 1);
 		}
+		vo.setState("active");
 
 		boardService.insert(vo);
 		return "redirect:/board";
@@ -121,7 +122,7 @@ public class BoardController {
 		}
 		/////////////////////////////////////////////////////
 
-		boardService.deleteByNo(boardNo);
+		boardService.updateStateByNo(boardNo);
 		return "redirect:/board";
 	}
 

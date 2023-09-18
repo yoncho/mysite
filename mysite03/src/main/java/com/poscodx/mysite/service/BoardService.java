@@ -33,8 +33,8 @@ public class BoardService {
 		boardRepository.updateHitByNo(boardNo);
 	}
 
-	public void deleteByNo(int boardNo) {
-		boardRepository.deleteByNo(boardNo);
+	public void updateStateByNo(int boardNo) {
+		boardRepository.updateStateByNo(boardNo);
 	}
 
 	public void update(BoardVo boardVo) {

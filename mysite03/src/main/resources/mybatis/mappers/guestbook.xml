@@ -17,6 +17,7 @@
 		values (null,#{name},#{password},#{contents},now())
 		]]>
 	</insert>
+	
 	 
 	<delete id="delete" parameterType="map">
 		<![CDATA[
