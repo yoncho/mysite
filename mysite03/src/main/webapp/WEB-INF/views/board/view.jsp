@@ -35,10 +35,10 @@
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath}/board">글목록</a>
 					<c:if test="${isWriter eq true}">
-						<a href="${pageContext.request.contextPath}/board?a=modifyform&board=${board.no}">글수정</a>
+						<a href="${pageContext.request.contextPath}/board/modify/${board.no}">글수정</a>
 					</c:if>
-					<c:if test="${isAuthUser eq true}">
-						<a href="${pageContext.request.contextPath}/board?a=writeform&user=${param.user}&pboard=${board.no}">댓글 작성</a>
+					<c:if test="${isAuth eq true}">
+						<a href="${pageContext.request.contextPath}/board/write?pboard=${board.no}">댓글 작성</a>
 					</c:if>
 				</div>
 			</div>

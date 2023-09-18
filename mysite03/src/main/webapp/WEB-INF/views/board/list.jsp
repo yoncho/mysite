@@ -31,14 +31,14 @@
 					</tr>
 					<c:forEach items="${list}" var="vo" varStatus="status">
 						<tr>
-							<td>${status.count}</td>
+							<td>${page.boardStartNoPerPage - status.index}</td>
 							<td style="padding-left:${(vo.depth - 1) * 30 }px">
 							<c:if test="${vo.depth > 1}">
 								<img src="${pageContext.request.contextPath}/assets/images/reply.png">
 							</c:if>
 							<c:choose>
 								<c:when test="${vo.state eq 'active'}">
-									<a href="${pageContext.request.contextPath}/board?a=view&board=${vo.no}&writer=${vo.userNo}&user=${no}">${vo.title}</a>
+									<a href="${pageContext.request.contextPath}/board/view/${vo.no}">${vo.title}</a>
 								</c:when>
 								<c:otherwise>
 									<a href="">삭제된 글 입니다.</a>
@@ -49,8 +49,8 @@
 							<td>${vo.hit}</td>
 							<td>${vo.regDate}</td>
 							<td>
-							<c:if test="${no == vo.userNo and vo.state eq 'active'}">
-								<a href="${pageContext.request.contextPath}/board?a=delete&board=${vo.no}" class="del">삭제</a>
+							<c:if test="${vo.userNo == userNo  and vo.state eq 'active'}">
+								<a href="${pageContext.request.contextPath}/board/delete?board=${vo.no}" class="del">삭제</a>
 							</c:if>
 							</td>
 						</tr>		
@@ -60,13 +60,13 @@
 				<div class="pager">
 					<ul>
 						<c:if test="${page.beforePage > 0}">
-							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${page.beforePage}&kwd=${param.kwd}">◀</a></li>
+							<li><a href="${pageContext.request.contextPath}/board?page=${page.beforePage}&kwd=${param.kwd}">◀</a></li>
 						</c:if>
 						<c:forEach begin="${page.startPage}" end="${page.endPage}" step="1" var="i">
-							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${i}&kwd=${param.kwd}">${i}</a></li>
+							<li><a href="${pageContext.request.contextPath}/board?page=${i}&kwd=${param.kwd}">${i}</a></li>
 						</c:forEach>
 						<c:if test="${page.nextPage > 0}">
-							<li><a href="${pageContext.request.contextPath}/board?a=board&page=${page.nextPage}&kwd=${param.kwd}">▶</a></li>
+							<li><a href="${pageContext.request.contextPath}/board?page=${page.nextPage}&kwd=${param.kwd}">▶</a></li>
 						</c:if>
 					</ul>
 				</div>
@@ -74,7 +74,7 @@
 
 				<div class="bottom">
 					<c:if test="${isAuth eq true}">
-						<a href="${pageContext.request.contextPath}/board?a=writeform&user=${no}" id="new-book">글쓰기</a>
+						<a href="${pageContext.request.contextPath}/board/write" id="new-book">글쓰기</a>
 					</c:if>
 				</div>
 			</div>
