@@ -44,6 +44,7 @@
 		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ano, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName  
 		from board b, user u 
 		where b.no=#{no}
+		and b.user_no=u.no
 		]]>
 	</select>
 	
@@ -59,7 +60,7 @@
 		<![CDATA[
 			insert 
 			into board 
-			values (null,#{title},#{contents},#{hit},now(),#{gno},#{ono},#{depth},#{userNo},#{state})
+			values (null,#{title},#{contents},#{hit},now(),#{gno},#{ono},#{depth},#{userNo}, #{state})
 		]]>
 	</insert>
 	

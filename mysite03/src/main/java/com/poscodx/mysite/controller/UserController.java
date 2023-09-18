@@ -50,7 +50,8 @@ public class UserController {
 		}
 		/* 인증 성공 */
 		session.setAttribute("authUser", authUser);
-
+		System.out.println("authUser Name : " + authUser.getName());
+		System.out.println("authUser No : " + authUser.getNo());
 		return "redirect:/";
 	}
 

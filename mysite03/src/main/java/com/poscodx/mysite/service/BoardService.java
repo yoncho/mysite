@@ -21,8 +21,8 @@ public class BoardService {
 		return boardRepository.findLastNoOfGroup();
 	}
 
-	public BoardVo findByNo(int pNo) {
-		return boardRepository.findByNo(pNo);
+	public BoardVo findByNo(int boardNo) {
+		return boardRepository.findByNo(boardNo);
 	}
 
 	public void insert(BoardVo vo) {

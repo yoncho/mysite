@@ -27,6 +27,7 @@ public class BoardRepository {
 	private SqlSession sqlSession;
 	
 	public boolean insert(BoardVo vo) {
+		System.out.println("vo.no : " + vo.getNo());
 		int count = sqlSession.update("board.updateOrder", vo);
 		count = sqlSession.insert("board.insert", vo);
 		return count == 1;
@@ -74,65 +75,68 @@ public class BoardRepository {
 //		
 //		return count == 1;
 		
-		BoardVo result = null;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			conn = getConnection();
-			
-			String selectSql
-				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, b.state ,u.name from board b, user u where b.no=?";
-			pstmt = conn.prepareStatement(selectSql);
-			pstmt.setInt(1, boardNo);
-			rs =  pstmt.executeQuery();
-			
-			if (rs.next()) {
-				int no = rs.getInt(1);
-				String title = rs.getString(2);
-				String contents = rs.getString(3);
-				int hit = rs.getInt(4);
-				String regDate = rs.getString(5);
-				int gNo = rs.getInt(6);
-				int oNo = rs.getInt(7);
-				int depth = rs.getInt(8);
-				Long userNo = rs.getLong(9);
-				String state = rs.getString(10);
-				String userName = rs.getString(11);
-				
-				result = new BoardVo();			
-				result.setNo(no);
-				result.setTitle(title);
-				result.setContents(contents);
-				result.setHit(hit);
-				result.setRegDate(regDate);
-				result.setGno(gNo);
-				result.setOno(oNo);
-				result.setDepth(depth);
-				result.setUserNo(userNo);
-				result.setState(state);
-				result.setUserName(userName);
-			}
-		} catch(SQLException e) {
-			System.out.println("error:" + e);
-		} finally{
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null && !conn.isClosed())
-				{
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
+		BoardVo vo = sqlSession.selectOne("board.findByNo", boardNo);
+		return vo;
+//		
+//		BoardVo result = null;
+//		Connection conn = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		
+//		try {
+//			conn = getConnection();
+//			
+//			String selectSql
+//				= "select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.user_no, b.state ,u.name from board b, user u where b.no=?";
+//			pstmt = conn.prepareStatement(selectSql);
+//			pstmt.setInt(1, boardNo);
+//			rs =  pstmt.executeQuery();
+//			
+//			if (rs.next()) {
+//				int no = rs.getInt(1);
+//				String title = rs.getString(2);
+//				String contents = rs.getString(3);
+//				int hit = rs.getInt(4);
+//				String regDate = rs.getString(5);
+//				int gNo = rs.getInt(6);
+//				int oNo = rs.getInt(7);
+//				int depth = rs.getInt(8);
+//				Long userNo = rs.getLong(9);
+//				String state = rs.getString(10);
+//				String userName = rs.getString(11);
+//				
+//				result = new BoardVo();			
+//				result.setNo(no);
+//				result.setTitle(title);
+//				result.setContents(contents);
+//				result.setHit(hit);
+//				result.setRegDate(regDate);
+//				result.setGno(gNo);
+//				result.setOno(oNo);
+//				result.setDepth(depth);
+//				result.setUserNo(userNo);
+//				result.setState(state);
+//				result.setUserName(userName);
+//			}
+//		} catch(SQLException e) {
+//			System.out.println("error:" + e);
+//		} finally{
+//			try {
+//				if(rs != null) {
+//					rs.close();
+//				}
+//				if(pstmt != null) {
+//					pstmt.close();
+//				}
+//				if (conn != null && !conn.isClosed())
+//				{
+//					conn.close();
+//				}
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return result;
 	}
 	
 	public int findTotalCount() {
