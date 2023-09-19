@@ -17,7 +17,7 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="${pageContext.request.contextPath}/board" method="post">
-					<input type="text" id="kwd" name="kwd" value="${param.kwd}"> 
+					<input type="text" id="kwd" name="kwd" value="${kwd}"> 
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -50,7 +50,7 @@
 							<td>${vo.regDate}</td>
 							<td>
 							<c:if test="${vo.userNo == userNo  and vo.state eq 'active'}">
-								<a href="${pageContext.request.contextPath}/board/delete?board=${vo.no}" class="del">삭제</a>
+								<a href="${pageContext.request.contextPath}/board/delete?board=${vo.no}&page=${page.currentPage}&kwd=${kwd}" class="del">삭제</a>
 							</c:if>
 							</td>
 						</tr>		
@@ -60,18 +60,17 @@
 				<div class="pager">
 					<ul>
 						<c:if test="${page.beforePage > 0}">
-							<li><a href="${pageContext.request.contextPath}/board?page=${page.beforePage}&kwd=${param.kwd}">◀</a></li>
+							<li><a href="${pageContext.request.contextPath}/board?page=${page.beforePage}&kwd=${kwd}">◀</a></li>
 						</c:if>
 						<c:forEach begin="${page.startPage}" end="${page.endPage}" step="1" var="i">
-							<li><a href="${pageContext.request.contextPath}/board?page=${i}&kwd=${param.kwd}">${i}</a></li>
+							<li><a href="${pageContext.request.contextPath}/board?page=${i}&kwd=${kwd}">${i}</a></li>
 						</c:forEach>
 						<c:if test="${page.nextPage > 0}">
-							<li><a href="${pageContext.request.contextPath}/board?page=${page.nextPage}&kwd=${param.kwd}">▶</a></li>
+							<li><a href="${pageContext.request.contextPath}/board?page=${page.nextPage}&kwd=${kwd}">▶</a></li>
 						</c:if>
 					</ul>
 				</div>
 				<!-- pager 추가 -->
-
 				<div class="bottom">
 					<c:if test="${isAuth eq true}">
 						<a href="${pageContext.request.contextPath}/board/write" id="new-book">글쓰기</a>

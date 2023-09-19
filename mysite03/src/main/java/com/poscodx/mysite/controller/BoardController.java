@@ -26,7 +26,7 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-	@RequestMapping({"", "/", "/main"})
+	@RequestMapping({"", "/"})
 	public String main(HttpSession session, String page, String kwd, Model model) {
 		// Access Control : 접근 제어 (*횡단 관심, 좋지 않은 코드임..)
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
@@ -37,16 +37,15 @@ public class BoardController {
 			model.addAttribute("userNo", authUser.getNo());
 		}
 		/////////////////////////////////////////////////////
-		String stringCurrentPage = page;
 		List<BoardVo> list = new ArrayList();
-		int currentPage = stringCurrentPage == null ? 1 : Integer.parseInt(stringCurrentPage);
+		int currentPage = page == null ? 1 : Integer.parseInt(page);
 		int totalBoardCount = 0;
 		
 		totalBoardCount = boardService.findTotalCount(kwd);
 		list = pageBoardList(currentPage, kwd);
 		
-		PagingVo paging = paging(totalBoardCount, currentPage, pagePerStep, boardCountPerPage);
-		model.addAttribute("page", paging);
+		PagingVo pageVo = paging(totalBoardCount, currentPage, pagePerStep, boardCountPerPage);
+		model.addAttribute("page", pageVo);
 		model.addAttribute("list", list);
 		model.addAttribute("isAuth", isAuth);
 		return "board/list";
@@ -60,7 +59,7 @@ public class BoardController {
 			return "redirect:/user/login";
 		}
 		model.addAttribute("pboard", pboard);
-		return "board/write";
+		return "board/write";                                                                                                                                                                                        
 	}
 
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
@@ -115,16 +114,16 @@ public class BoardController {
 	}
 
 	@RequestMapping("/delete")
-	public String delete(HttpSession session, @RequestParam("board") int boardNo) {
+	public String delete(HttpSession session, @RequestParam("board") int boardNo, @RequestParam("page") int pageNo, @RequestParam("kwd") String keyword) {
 		// Access Control : 접근 제어 (*횡단 관심, 좋지 않은 코드임..)
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if (authUser == null) {
 			return "redirect:/user/board";
 		}
 		/////////////////////////////////////////////////////
-
+		
 		boardService.updateStateByNo(boardNo);
-		return "redirect:/board";
+		return "redirect:/board?page="+pageNo+"&kwd="+keyword;
 	}
 
 	@RequestMapping(value = "/modify/{boardNo}", method = RequestMethod.GET)
