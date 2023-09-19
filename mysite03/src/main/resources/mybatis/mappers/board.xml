@@ -48,6 +48,20 @@
 		]]>
 	</select>
 	
+	<select id="findTotalCount" resultType="int">
+		<![CDATA[
+		select count(*) from board
+		]]>
+	</select>
+	
+	<select id="findTotalCountByKeyword" parameterType="string" resultType="int">
+		<![CDATA[
+		select count(*) 
+		from board b, (select g_no as s_g_no from board where title like '%${keyword}%' and o_no=1) as subq 
+		where g_no=subq.s_g_no
+		]]>
+	</select>
+	
 	<update id="updateOrder"  parameterType="boardvo">
 		<![CDATA[
 		update board 
@@ -56,14 +70,14 @@
 		]]>
 	</update>
 	
-	<insert id="insert" parameterType="boardvo">
+	<update id="updateHitByNo"  parameterType="int">
 		<![CDATA[
-			insert 
-			into board 
-			values (null,#{title},#{contents},#{hit},now(),#{gno},#{ono},#{depth},#{userNo}, #{state})
+		update board 
+		set hit=hit+1 
+		where no=#{no}
 		]]>
-	</insert>
-	
+	</update>
+
 	<update id="updateStateByNo" parameterType="int">
 		<![CDATA[
 		update board 
@@ -80,6 +94,12 @@
 		]]>
 	</update>
 	
-	
+	<insert id="insert" parameterType="boardvo">
+		<![CDATA[
+			insert 
+			into board 
+			values (null,#{title},#{contents},#{hit},now(),#{gno},#{ono},#{depth},#{userNo}, #{state})
+		]]>
+	</insert>
 	
 </mapper>

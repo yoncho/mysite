@@ -78,129 +78,16 @@ public class BoardRepository {
 	}
 	
 	public int findTotalCount() {
-		
-		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int result = -1;
-		try {
-			conn = getConnection();
-			
-			String selectSql
-				= "select count(*) from board";
-			pstmt = conn.prepareStatement(selectSql);
-			rs =  pstmt.executeQuery();
-			
-			if (rs.next()) {
-				result = rs.getInt(1);
-			}
-		} catch(SQLException e) {
-			System.out.println("error:" + e);
-		} finally{
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null && !conn.isClosed())
-				{
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
+		return sqlSession.selectOne("board.findTotalCount");
 	}
 
 
-	public int findTotalCountByKeyword(String kwd) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int result = -1;
-		try {
-			conn = getConnection();
-			
-			String selectSql
-				= "select count(*) "
-				+ "from board b, (select g_no as s_g_no from board where title like ? and o_no=1) as subq "
-				+ "where g_no=subq.s_g_no";
-			pstmt = conn.prepareStatement(selectSql);
-			pstmt.setString(1, "%"+kwd+"%");
-			rs =  pstmt.executeQuery();
-			
-			if (rs.next()) {
-				result = rs.getInt(1);
-			}
-		} catch(SQLException e) {
-			System.out.println("error:" + e);
-		} finally{
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null && !conn.isClosed())
-				{
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
+	public int findTotalCountByKeyword(String keyword) {
+		return sqlSession.selectOne("board.findTotalCountByKeyword", keyword);
 	}
 	
 	public boolean updateHitByNo(int boardNo) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		boolean result = false;
-		
-		try {
-			conn = getConnection();
-
-			String updateQuery = "update board"
-								+ " set hit=hit+1"
-								+ " where no=?";
-			pstmt = conn.prepareStatement(updateQuery);
-			
-			pstmt.setInt(1, boardNo);
-			
-			result =  pstmt.executeUpdate() == 1;
-		} catch(SQLException e) {
-			System.out.println("error:" + e);
-		} finally{
-			try {
-				//5. 자원 정리
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null && !conn.isClosed())
-				{
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}
-	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(URL, ID, PW);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		return conn;
+		int count = sqlSession.update("board.updateHitByNo");
+		return count == 1;
 	}
 }
