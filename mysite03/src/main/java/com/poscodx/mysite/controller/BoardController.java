@@ -53,14 +53,13 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String write(HttpSession session, String pboard) {
+	public String write(HttpSession session, String pboard, Model model) {
 		// Access Control : 접근 제어 (*횡단 관심, 좋지 않은 코드임..)
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if (authUser == null) {
 			return "redirect:/user/login";
 		}
-		System.out.println("pboard : " + pboard);
-		System.out.println(authUser.getNo());
+		model.addAttribute("pboard", pboard);
 		return "board/write";
 	}
 
@@ -73,7 +72,7 @@ public class BoardController {
 		}
 		/////////////////////////////////////////////////////
 		
-		System.out.println(pboard);
+		System.out.println("pboard : " + pboard);
 		System.out.println(authUser.getNo());
 		if (pboard == "") {
 			vo.setGno(boardService.findLastNoOfGroup() + 1);
@@ -81,6 +80,7 @@ public class BoardController {
 			vo.setDepth(1);
 		} else {
 			BoardVo pVo = boardService.findByNo(Integer.parseInt(pboard));
+			System.out.println("pBoard no :" + pVo.getGno());
 			vo.setGno(pVo.getGno());
 			vo.setOno(pVo.getOno() + 1);
 			vo.setDepth(pVo.getDepth() + 1);

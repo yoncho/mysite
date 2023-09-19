@@ -4,7 +4,7 @@
 <mapper namespace="board">
 	<select id="findAll" resultType="boardvo">
 		<![CDATA[
-		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ano, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName
+		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ono, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName
 		from board b, user u
 		where b.user_no=u.no
 		order by g_no desc, o_no asc
@@ -20,7 +20,7 @@
 	
 	<select id="findByRange" parameterType="map" resultType="boardvo">
 		<![CDATA[
-		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ano, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName 
+		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ono, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName 
 		from board b, user u 
 		where b.user_no=u.no 
 		order by g_no desc, o_no asc 
@@ -30,7 +30,7 @@
 	
 	<select id="findByRangeAndKeyword" parameterType="map" resultType="boardvo">
 		<![CDATA[
-		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ano, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName 
+		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ono, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName 
 		from board b, user u, (select g_no as m_g_no from board where title like '%${keyword}%' and o_no=1) as m 
 		where b.user_no=u.no 
 		and b.g_no=m.m_g_no 
@@ -41,7 +41,7 @@
 	
 	<select id="findByNo" parameterType="int" resultType="boardvo">
 		<![CDATA[
-		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ano, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName  
+		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ono, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName  
 		from board b, user u 
 		where b.no=#{no}
 		and b.user_no=u.no

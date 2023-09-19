@@ -27,7 +27,9 @@ public class BoardRepository {
 	private SqlSession sqlSession;
 	
 	public boolean insert(BoardVo vo) {
-		System.out.println("vo.no : " + vo.getNo());
+		System.out.println("vo.gno : " + vo.getGno());
+		System.out.println("vo.ono : " + vo.getOno());
+		System.out.println("vo.depth : " + vo.getDepth());
 		int count = sqlSession.update("board.updateOrder", vo);
 		count = sqlSession.insert("board.insert", vo);
 		return count == 1;
