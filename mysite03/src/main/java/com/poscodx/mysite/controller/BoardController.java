@@ -71,9 +71,6 @@ public class BoardController {
 			return "redirect:/user/login";
 		}
 		/////////////////////////////////////////////////////
-		
-		System.out.println("pboard : " + pboard);
-		System.out.println(authUser.getNo());
 		if (pboard == "") {
 			vo.setGno(boardService.findLastNoOfGroup() + 1);
 			vo.setOno(1);
@@ -139,9 +136,6 @@ public class BoardController {
 			return "redirect:/user/board";
 		}
 		/////////////////////////////////////////////////////
-
-		System.out.println("boardNo : " + boardNo);
-
 		board.setUserNo(authUser.getNo());
 		model.addAttribute("board", board);
 
