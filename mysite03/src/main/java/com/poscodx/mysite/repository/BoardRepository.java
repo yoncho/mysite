@@ -81,7 +81,6 @@ public class BoardRepository {
 		return sqlSession.selectOne("board.findTotalCount");
 	}
 
-
 	public int findTotalCountByKeyword(String keyword) {
 		return sqlSession.selectOne("board.findTotalCountByKeyword", keyword);
 	}
