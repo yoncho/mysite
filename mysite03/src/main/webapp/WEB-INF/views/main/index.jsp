@@ -21,10 +21,6 @@
 					<p>${fn:replace(siteVo.description, newline, "<br>")}
 						<br><br>
 						<a href="${pageContext.request.contextPath}/guestbook">방명록</a>에 글 남기기<br>
-						<c:if test="${isAdmin eq true}">
-							<a href="${pageContext.request.contextPath}/admin">관리자페이지</a>에 접속하기<br>
-						</c:if>
-						
 					</p>
 				</div>
 			</div>
