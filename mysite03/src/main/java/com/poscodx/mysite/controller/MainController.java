@@ -19,13 +19,13 @@ public class MainController {
 	public String main(@AuthUser UserVo userVo, Model model) {
 		SiteVo siteVo = siteSerivce.getSite();
 		boolean isAdmin = false;
-		model.addAttribute("siteVo", siteVo);
-		
+
 		if(userVo != null) {
 			isAdmin =  userVo.getRole().equals("ADMIN");
 		}
-		model.addAttribute("isAdmin", isAdmin);
 		
+		model.addAttribute("siteVo", siteVo);
+		model.addAttribute("isAdmin", isAdmin);
 		return "main/index";
 		//prefix : /WEB-INF/views/
 		//suffix : .jsp
