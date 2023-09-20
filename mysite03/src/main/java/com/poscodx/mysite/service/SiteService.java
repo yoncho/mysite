@@ -12,11 +12,11 @@ public class SiteService {
 	private SiteRepository siteRepository;
 	
 	public SiteVo getSite() {
-		return siteRepository.find();
+		long siteNo = 1; //TODO : 추후 Site Template을 설정해놓을 수 있게..
+		return siteRepository.findByNo(siteNo);
 	}
 	
-	public void updateSite(SiteVo vo)
-	{
+	public void updateSite(SiteVo vo){
 		siteRepository.updateSite(vo);
 	}
 	
