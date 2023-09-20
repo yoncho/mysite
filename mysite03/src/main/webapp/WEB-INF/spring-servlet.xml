@@ -19,7 +19,12 @@
 		Message Converter
 		Argument Resolver
 	 -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven>
+		<!-- Argument Resolvers -->
+		<mvc:argument-resolvers>
+			<bean class="com.poscodx.mysite.security.AuthUserHandlerMethodArgumentResolver" />
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
 
 	<!-- Default Servlet Handler -->
 	<mvc:default-servlet-handler/>
@@ -34,6 +39,14 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/user/logout"/>
 			<bean class="com.poscodx.mysite.security.LogoutInterceptor"/>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/> <!-- 적용 대상 -->
+			<mvc:exclude-mapping path="/assets/**"/> <!-- 제외 대상 (정적 자원) -->
+			<mvc:exclude-mapping path="/user/auth"/> <!-- 제외 대상 (인증을 하려는 경우)-->
+			<mvc:exclude-mapping path="/user/logout"/> <!-- 제외 대상 (뒤에 controller가 없는 경우) -->
+			<bean class="com.poscodx.mysite.security.AuthInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
 	

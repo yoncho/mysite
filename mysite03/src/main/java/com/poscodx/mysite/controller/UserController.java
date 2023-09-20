@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.poscodx.mysite.security.Auth;
+import com.poscodx.mysite.security.AuthUser;
 import com.poscodx.mysite.service.UserService;
 import com.poscodx.mysite.vo.UserVo;
 
@@ -64,29 +66,30 @@ public class UserController {
 //	}
 
 //	@Auth 직접 만들 annotation, 인증이 필요함을 뜻함
+	
+	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String update(HttpSession session, Model model) {
-		// Access Control : 접근 제어 (*횡단 관심, 좋지 않은 코드임..)
+//		// Access Control : 접근 제어 (*횡단 관심, 좋지 않은 코드임..)
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/user/login";
-		}
-		/////////////////////////////////////////////////////
-
+//		if (authUser == null) {
+//			return "redirect:/user/login";
+//		}
+//		/////////////////////////////////////////////////////
+		//@Auth로 접근 제어는 할 수 있지만.. authUser의 field가 필요한 경우... session이 필요함..!!
 		UserVo userVo = userSerivce.getUser(authUser.getNo());
 		model.addAttribute("userVo", userVo);
 
 		return "/user/update";
 	}
 
+	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(HttpSession session, UserVo userVo) {
-		// Access Control : 접근 제어 (*횡단 관심, 좋지 않은 코드임..)
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/user/login";
-		}
-		/////////////////////////////////////////////////////
+	//session을 빼고싶은 경우 - authUser arguments Resolver
+	//public String update(@AuthUser UserVo authUser, UserVo userVo)
+	public String update(@AuthUser UserVo authUser, UserVo userVo) {
+//		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		//접근 제어는 뻇지만.. 기술 침투는... 어쩔 수 없음... session을 사용...
 		userVo.setNo(authUser.getNo());
 		userSerivce.update(userVo);
 		

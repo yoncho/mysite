@@ -8,12 +8,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.poscodx.mysite.security.Auth;
+import com.poscodx.mysite.security.AuthUser;
 import com.poscodx.mysite.service.BoardService;
 import com.poscodx.mysite.vo.BoardVo;
 import com.poscodx.mysite.vo.PagingVo;
@@ -27,7 +28,7 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
-
+	
 	@RequestMapping({"", "/"})
 	public String main(HttpSession session, String page, String kwd, Model model) {
 		// Access Control : 접근 제어 (*횡단 관심, 좋지 않은 코드임..)
@@ -53,25 +54,16 @@ public class BoardController {
 		return "board/list";
 	}
 
+	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String write(HttpSession session, String pboard, Model model) {
-		// Access Control : 접근 제어 (*횡단 관심, 좋지 않은 코드임..)
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/user/login";
-		}
 		model.addAttribute("pboard", pboard);
 		return "board/write";                                                                                                                                                                                        
 	}
 
+	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(HttpSession session, BoardVo vo, String pboard) {
-		// Access Control : 접근 제어 (*횡단 관심, 좋지 않은 코드임..)
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/user/login";
-		}
-		/////////////////////////////////////////////////////
+	public String write(@AuthUser UserVo authUser, BoardVo vo, String pboard) {
 		if (pboard == "") {
 			vo.setGno(boardService.findLastNoOfGroup() + 1);
 			vo.setOno(1);
@@ -99,7 +91,7 @@ public class BoardController {
 		boardService.updateHitByNo(boardNo);
 		boolean isAuth = false;
 		boolean isWriter = false;
-
+		
 		if (authUser != null) {
 			isAuth = true;
 			if (authUser.getNo() == board.getUserNo()) {
