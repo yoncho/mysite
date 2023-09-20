@@ -58,7 +58,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 			response.sendRedirect(request.getContextPath());
 			return false;
 		}
-		System.out.println("인증된 admin입니다.");
 		//6. Auth. Ok!
 		return true;
 	}
