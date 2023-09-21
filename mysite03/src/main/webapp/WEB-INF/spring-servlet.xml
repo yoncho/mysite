@@ -60,8 +60,9 @@
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="1" />
 	</bean>
-
+	
+	<!-- controller & component -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.poscodx.mysite.controller,com.poscodx.mysite.exception" />
+	<context:component-scan base-package="com.poscodx.mysite.controller, com.poscodx.mysite.exception" />
 	
 </beans>
