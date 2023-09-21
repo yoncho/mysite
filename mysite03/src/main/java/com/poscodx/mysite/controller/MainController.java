@@ -23,7 +23,6 @@ public class MainController {
 		if(userVo != null) {
 			isAdmin =  userVo.getRole().equals("ADMIN");
 		}
-		
 		model.addAttribute("siteVo", siteVo);
 		model.addAttribute("isAdmin", isAdmin);
 		return "main/index";
