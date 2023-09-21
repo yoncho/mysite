@@ -19,7 +19,6 @@ public class MainController {
 	public String main(@AuthUser UserVo userVo, Model model) {
 		SiteVo siteVo = siteSerivce.getSite();
 		boolean isAdmin = false;
-
 		if(userVo != null) {
 			System.out.println("null profile");
 			isAdmin =  userVo.getRole().equals("ADMIN");
@@ -28,7 +27,7 @@ public class MainController {
 		if(siteVo.getProfile().isEmpty()) {
 			siteVo.setProfile("/assets/images/tm.png");
 		}
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!" + siteVo.getProfile());
+		
 		model.addAttribute("siteVo", siteVo);
 		model.addAttribute("isAdmin", isAdmin);
 		return "main/index";
