@@ -37,7 +37,6 @@ public class AdminController {
 		vo.setProfile(url);
 		
 		siteSerivce.updateSite(vo);
-		System.out.println(vo.getTitle());
 		return "redirect:/admin";
 	}
 	
