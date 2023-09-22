@@ -85,6 +85,6 @@
 	</bean>
 
 	<!-- url resource mapping -->
-	<mvc:resources mapping="/images/**"
+	<mvc:resources mapping="/assets/upload-images/**"
 		location="file:/mysite-uploads/" />
 </beans>

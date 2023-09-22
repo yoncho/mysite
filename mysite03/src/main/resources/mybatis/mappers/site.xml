@@ -12,10 +12,23 @@
 	</select>
 	
 	<update id="update" parameterType="sitevo">
-		<![CDATA[
-		update site 
-		set title=#{title}, welcome=#{welcome}, profile=#{profile}, description=#{description}
-		where no=#{no}
-		]]>
+	<choose>
+		<when test="profile eq null">
+			<![CDATA[
+			update site 
+			set title=#{title}, welcome=#{welcome}, description=#{description}
+			where no=#{no}
+			]]>
+		</when>
+		<otherwise>
+			<![CDATA[
+			update site 
+			set title=#{title}, welcome=#{welcome}, profile=#{profile}, description=#{description}
+			where no=#{no}
+			]]>
+		</otherwise>
+		
+	</choose>
+		
 	</update>
 </mapper>
