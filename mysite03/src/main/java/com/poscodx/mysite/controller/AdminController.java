@@ -1,5 +1,7 @@
 package com.poscodx.mysite.controller;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,8 @@ import com.poscodx.mysite.vo.SiteVo;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+	@Autowired
+	private ServletContext servletContext;
 	@Autowired
 	private SiteService siteSerivce;
 
@@ -37,6 +41,11 @@ public class AdminController {
 		vo.setProfile(url);
 		
 		siteSerivce.updateSite(vo);
+		//applicationContext에 있는 siteVo도 업데이트..!!
+//		servletContext.setAttribute("site", vo);
+		// 이건 기술 침투....
+		
+		// 더 좋은 방법 : 
 		return "redirect:/admin";
 	}
 	
