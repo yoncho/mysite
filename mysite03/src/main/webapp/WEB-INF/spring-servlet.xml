@@ -9,48 +9,55 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-	
+
 	<!-- auto asepct(proxy) -->
-	<aop:aspectj-autoproxy/>
-	
-	<!-- 
-		Validator
-		Default Servlet Handler
-		Message Converter
-		Argument Resolver
-	 -->
+	<aop:aspectj-autoproxy />
+
+	<!-- Validator Default Servlet Handler Message Converter Argument Resolver -->
 	<mvc:annotation-driven>
 		<!-- Argument Resolvers -->
 		<mvc:argument-resolvers>
-			<bean class="com.poscodx.mysite.security.AuthUserHandlerMethodArgumentResolver" />
+			<bean
+				class="com.poscodx.mysite.security.AuthUserHandlerMethodArgumentResolver" />
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
 
 	<!-- Default Servlet Handler -->
-	<mvc:default-servlet-handler/>
-	
+	<mvc:default-servlet-handler />
+
 	<!-- Interceptors -->
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/user/auth"/>
-			<bean class="com.poscodx.mysite.security.LoginInterceptor"/>
+			<mvc:mapping path="/user/auth" />
+			<bean class="com.poscodx.mysite.security.LoginInterceptor" />
 		</mvc:interceptor>
-		
+
 		<mvc:interceptor>
-			<mvc:mapping path="/user/logout"/>
-			<bean class="com.poscodx.mysite.security.LogoutInterceptor"/>
+			<mvc:mapping path="/user/logout" />
+			<bean class="com.poscodx.mysite.security.LogoutInterceptor" />
 		</mvc:interceptor>
-		
+
 		<mvc:interceptor>
-			<mvc:mapping path="/**"/> <!-- 적용 대상 -->
-			<mvc:exclude-mapping path="/assets/**"/> <!-- 제외 대상 (정적 자원) -->
-			<mvc:exclude-mapping path="/user/auth"/> <!-- 제외 대상 (인증을 하려는 경우)-->
-			<mvc:exclude-mapping path="/user/logout"/> <!-- 제외 대상 (뒤에 controller가 없는 경우) -->
-			<bean class="com.poscodx.mysite.security.AuthInterceptor"/>
+			<mvc:mapping path="/**" /> <!-- 적용 대상 -->
+			<mvc:exclude-mapping path="/assets/**" /> <!-- 제외 대상 (정적 자원) -->
+			<mvc:exclude-mapping path="/user/auth" /> <!-- 제외 대상 (인증을 하려는 경우) -->
+			<mvc:exclude-mapping path="/user/logout" /> <!-- 제외 대상 (뒤에 controller가 없는 경우) -->
+			<bean class="com.poscodx.mysite.security.AuthInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	
-	
+
+	<!-- Message Source -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages/messages_ko</value>
+				<value>messages/messages_en</value>
+			</list>
+		</property>
+	</bean>
+
+
 	<!-- View Resolver -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -60,21 +67,24 @@
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="1" />
 	</bean>
-	
+
 	<!-- controller & component -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.poscodx.mysite.controller, com.poscodx.mysite.exception" />
-	
+	<context:component-scan
+		base-package="com.poscodx.mysite.controller, com.poscodx.mysite.exception" />
+
 	<!-- multipart resolver -->
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- 최대업로드 가능한 바이트크기 -->
 		<property name="maxUploadSize" value="52428800" />
 		<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
-		<property name="maxInMemorySize" value="52428800"/>
+		<property name="maxInMemorySize" value="52428800" />
 		<!-- defaultEncoding -->
 		<property name="defaultEncoding" value="utf-8" />
 	</bean>
-	
+
 	<!-- url resource mapping -->
-	<mvc:resources mapping="/images/**" location="file:/mysite-uploads/"/>
+	<mvc:resources mapping="/images/**"
+		location="file:/mysite-uploads/" />
 </beans>
