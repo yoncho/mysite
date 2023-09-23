@@ -6,7 +6,13 @@ public class SiteVo {
 	private String welcome;
 	private String profile;
 	private String description;
-
+	private boolean isAdmin;
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
 	public Long getNo() {
 		return no;
 	}

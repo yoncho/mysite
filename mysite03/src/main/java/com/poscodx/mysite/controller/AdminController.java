@@ -3,6 +3,7 @@ package com.poscodx.mysite.controller;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,9 @@ import com.poscodx.mysite.vo.SiteVo;
 @RequestMapping("/admin")
 public class AdminController {
 	@Autowired
+	private ApplicationContext applicationContext;
+	
+	@Autowired
 	private ServletContext servletContext;
 	@Autowired
 	private SiteService siteSerivce;
@@ -29,7 +33,11 @@ public class AdminController {
 	@RequestMapping("")
 	public String main(Model model) {
 		SiteVo siteVo = siteSerivce.getSite();
-		model.addAttribute("siteVo", siteVo);
+		
+		SiteVo site = (SiteVo)applicationContext.getBean("site");
+		model.addAttribute("siteVo", site);
+		System.out.println("ADMIN****************************************** + " + site.isAdmin());
+		System.out.println("SITE : " + site.getTitle());
 		return "admin/main";
 	}
 
@@ -41,11 +49,13 @@ public class AdminController {
 		vo.setProfile(url);
 		
 		siteSerivce.updateSite(vo);
-		//applicationContext에 있는 siteVo도 업데이트..!!
-//		servletContext.setAttribute("site", vo);
-		// 이건 기술 침투....
 		
-		// 더 좋은 방법 : 
+		//applicationContext에 있는 siteVo도 업데이트..!!
+		SiteVo site = (SiteVo)applicationContext.getBean("site");
+		site.setTitle(vo.getTitle());
+		site.setProfile(vo.getProfile());
+		site.setWelcome(vo.getWelcome());
+		site.setDescription(vo.getDescription());
 		return "redirect:/admin";
 	}
 	

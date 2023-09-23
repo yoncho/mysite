@@ -5,14 +5,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.poscodx.mysite.service.UserService;
+import com.poscodx.mysite.vo.SiteVo;
 import com.poscodx.mysite.vo.UserVo;
 
 public class LoginInterceptor implements HandlerInterceptor {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ApplicationContext applicaionContext;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -28,8 +33,10 @@ public class LoginInterceptor implements HandlerInterceptor {
 				.getRequestDispatcher("/WEB-INF/views/user/login.jsp")
 				.forward(request, response);
 			return false;
-			
 		}
+		
+		SiteVo site = (SiteVo)applicaionContext.getBean(SiteVo.class);
+		site.setAdmin("ADMIN".equals(authUser.getRole()));
 		HttpSession session = request.getSession(true);
 		session.setAttribute("authUser", authUser);
 		response.sendRedirect(request.getContextPath());

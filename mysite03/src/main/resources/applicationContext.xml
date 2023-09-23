@@ -14,6 +14,7 @@
 	
 	<!-- auto asepct(proxy) -->
 	<aop:aspectj-autoproxy/>
+	<bean class="com.poscodx.mysite.listener.SpringContainerEventListener" />
 	
 	<!-- Connection Pool DataSource -->
 	<bean id="dataSource"
