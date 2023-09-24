@@ -19,13 +19,15 @@ public class SpringContainerEventListener implements ApplicationListener<Context
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		if (event.getApplicationContext().getParent() != null) {
-			System.out.println("SpringContext Refreshed [sub]");
-			ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) event.getApplicationContext();
 			
-			SiteVo site = siteService.getSite();
-			applicationContext.getBeanFactory().registerSingleton("site", site);
 		}else {
 			System.out.println("SpringContext Refreshed [root]");
 		}
+		
+		System.out.println("SpringContext Refreshed [sub]");
+		ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) event.getApplicationContext();
+		
+		SiteVo site = siteService.getSite();
+		applicationContext.getBeanFactory().registerSingleton("site", site);
 	}
 }

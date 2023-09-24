@@ -21,9 +21,9 @@ import com.poscodx.mysite.vo.SiteVo;
 public class AdminController {
 	@Autowired
 	private ApplicationContext applicationContext;
-	
 	@Autowired
 	private ServletContext servletContext;
+	
 	@Autowired
 	private SiteService siteSerivce;
 
@@ -32,12 +32,8 @@ public class AdminController {
 	
 	@RequestMapping("")
 	public String main(Model model) {
-		SiteVo siteVo = siteSerivce.getSite();
-		
 		SiteVo site = (SiteVo)applicationContext.getBean("site");
 		model.addAttribute("siteVo", site);
-		System.out.println("ADMIN****************************************** + " + site.isAdmin());
-		System.out.println("SITE : " + site.getTitle());
 		return "admin/main";
 	}
 
