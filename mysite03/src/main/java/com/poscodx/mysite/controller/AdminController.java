@@ -2,6 +2,7 @@ package com.poscodx.mysite.controller;
 
 import javax.servlet.ServletContext;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import com.poscodx.mysite.security.Auth;
 import com.poscodx.mysite.service.FileUploadService;
 import com.poscodx.mysite.service.SiteService;
 import com.poscodx.mysite.vo.SiteVo;
+
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
 
 @Auth(Role="ADMIN")
 @Controller
@@ -43,7 +46,6 @@ public class AdminController {
 			@RequestParam("file") MultipartFile file ) {
 		String url = fileUploadService.restore(file);
 		vo.setProfile(url);
-		
 		siteSerivce.updateSite(vo);
 		
 		//applicationContext에 있는 siteVo도 업데이트..!!
@@ -54,6 +56,8 @@ public class AdminController {
 		}
 		site.setWelcome(vo.getWelcome());
 		site.setDescription(vo.getDescription());
+		
+//		BeanUtils.copyProperties(vo, site); //한번에 교체하는것!
 		return "redirect:/admin";
 	}
 	

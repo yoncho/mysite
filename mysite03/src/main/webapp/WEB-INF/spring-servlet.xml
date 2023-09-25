@@ -79,8 +79,10 @@
 				<value>site</value>
 			</list>
 		</property>
-		
 	</bean>
+	
+	<!-- Application ContextEventListener -->
+	<bean class="com.poscodx.mysite.event.ApplicationContextEventListener"/>
 
 	<!-- controller & component -->
 	<context:annotation-config />
