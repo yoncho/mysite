@@ -49,7 +49,9 @@ public class AdminController {
 		//applicationContext에 있는 siteVo도 업데이트..!!
 		SiteVo site = (SiteVo)applicationContext.getBean("site");
 		site.setTitle(vo.getTitle());
-		site.setProfile(vo.getProfile());
+		if(vo.getProfile() != null) {
+			site.setProfile(vo.getProfile());
+		}
 		site.setWelcome(vo.getWelcome());
 		site.setDescription(vo.getDescription());
 		return "redirect:/admin";

@@ -20,7 +20,6 @@ public class MainController {
 		SiteVo siteVo = siteSerivce.getSite();
 		boolean isAdmin = false;
 		if(userVo != null) {
-			System.out.println("null profile");
 			isAdmin =  userVo.getRole().equals("ADMIN");
 		}
 		
