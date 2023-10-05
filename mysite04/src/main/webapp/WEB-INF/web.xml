@@ -7,7 +7,7 @@
 	
 	<context-param>
 		<param-name>contextClass</param-name>
-		<param-value>org.springframework.context.annotation.AnnotationConfigApplicationContext</param-value> <!-- classpath : resources/ -->
+		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value> <!-- classpath : resources/ -->
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

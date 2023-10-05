@@ -22,13 +22,15 @@
 /com
 |-- /poscodx
 |	|-- /mysite
-|	|	|-- /app
-|	|	|	|-- /mybatis
-|	|	|	|	|-- configuration.xml
-|	|	|	|	|-- /mappers
-|	|	|	|	|	|-- user.xml
-|	|	|	|	|	|-- board.xml
-|	|	|-- /web
-|	|	|	|-- /messages
-|	|	|	|	|-- messages_ko.properties
-|	|	|	|	|-- messages_en.properties
+|	|	|-- /config
+|	|	|	|-- /app
+|	|	|	|	|-- jdbc.properties
+|	|	|	|	|-- /mybatis
+|	|	|	|	|	|-- configuration.xml
+|	|	|	|	|	|-- /mappers
+|	|	|	|	|	|	|-- user.xml
+|	|	|	|	|	|	|-- board.xml
+|	|	|	|-- /web
+|	|	|	|	|-- /messages
+|	|	|	|	|	|-- messages_ko.properties
+|	|	|	|	|	|-- messages_en.properties
