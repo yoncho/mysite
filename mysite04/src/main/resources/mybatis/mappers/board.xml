@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	<select id="findAll" resultType="boardvo">
+		<![CDATA[
+		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ono, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName
+		from board b, user u
+		where b.user_no=u.no
+		order by g_no desc, o_no asc
+		]]>
+	</select>
+	
+	<select id="findLastNoOfGroup" resultType="int">
+		<![CDATA[
+		select COALESCE(max(g_no), 0) 
+		from board
+		]]>
+	</select>
+	
+	<select id="findByRange" parameterType="map" resultType="boardvo">
+		<![CDATA[
+		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ono, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName 
+		from board b, user u 
+		where b.user_no=u.no 
+		order by g_no desc, o_no asc 
+		limit #{startNo}, #{count}
+		]]>
+	</select>
+	
+	<select id="findByRangeAndKeyword" parameterType="map" resultType="boardvo">
+		<![CDATA[
+		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ono, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName 
+		from board b, user u, (select g_no as m_g_no from board where title like '%${keyword}%' and o_no=1) as m 
+		where b.user_no=u.no 
+		and b.g_no=m.m_g_no 
+		order by g_no desc, o_no asc 
+		limit #{startNo}, #{count}
+		]]>
+	</select>
+	
+	<select id="findByNo" parameterType="int" resultType="boardvo">
+		<![CDATA[
+		select b.no as no, b.title as title, b.contents as contents, b.hit as hit, b.reg_date as regDate, b.g_no as gno, b.o_no as ono, b.depth as depth, b.user_no as userNo, b.state as state,u.name as userName  
+		from board b, user u 
+		where b.no=#{no}
+		and b.user_no=u.no
+		]]>
+	</select>
+	
+	<select id="findTotalCount" resultType="int">
+		<![CDATA[
+		select count(*) from board
+		]]>
+	</select>
+	
+	<select id="findTotalCountByKeyword" parameterType="string" resultType="int">
+		<![CDATA[
+		select count(*) 
+		from board b, (select g_no as s_g_no from board where title like '%${keyword}%' and o_no=1) as subq 
+		where g_no=subq.s_g_no
+		]]>
+	</select>
+	
+	<update id="updateOrder"  parameterType="boardvo">
+		<![CDATA[
+		update board 
+		set o_no=o_no+1 
+		where g_no=#{gno} and o_no >= #{ono}
+		]]>
+	</update>
+	
+	<update id="updateHitByNo"  parameterType="int">
+		<![CDATA[
+		update board 
+		set hit=hit+1 
+		where no=#{no}
+		]]>
+	</update>
+
+	<update id="updateStateByNo" parameterType="int">
+		<![CDATA[
+		update board 
+		set state='deactive' 
+		where no=#{no}
+		]]>
+	</update>
+	
+	<update id="update" parameterType="boardvo">
+		<![CDATA[
+		update board
+		set title=#{title}, contents=#{contents}
+		where no=#{no}
+		]]>
+	</update>
+	
+	<insert id="insert" parameterType="boardvo">
+		<![CDATA[
+			insert 
+			into board 
+			values (null,#{title},#{contents},#{hit},now(),#{gno},#{ono},#{depth},#{userNo}, #{state})
+		]]>
+	</insert>
+	
+</mapper>
