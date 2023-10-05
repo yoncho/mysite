@@ -12,20 +12,9 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 	
-	<!-- auto asepct(proxy) -->
-	<aop:aspectj-autoproxy/>
+	
 	<bean class="com.poscodx.mysite.listener.SpringContainerEventListener" />
 	
-	<!-- Connection Pool DataSource -->
-	<bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName"
-			value="org.mariadb.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mariadb://192.168.0.181:3307/webdb?chraset=utf8" />
-		<property name="username" value="mysite" />
-		<property name="password" value="mysite" />
-	</bean>
 
 	<!-- SqlSessionFactory -->
 	<bean id="sqlSessionFactory"
@@ -40,17 +29,4 @@
 		class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
-
-
-	<context:annotation-config />
-	<context:component-scan
-		base-package="com.poscodx.mysite.repository,com.poscodx.mysite.service, com.poscodx.mysite.aspect">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Repository" />
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Service" />
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Component" />
-	</context:component-scan>
-
 </beans>
