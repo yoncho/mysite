@@ -33,9 +33,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 			auth = handlerMethod.getBeanType().getAnnotation(Auth.class);
 		}
 		
-		
-		
-		
 		//4. @Auth not found
 		if(auth == null) {
 			return true;

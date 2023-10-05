@@ -14,7 +14,6 @@ import com.poscodx.mysite.vo.UserVo;
 
 public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
-	
 	@Override
 	public Object resolveArgument(
 			MethodParameter parameter, 
