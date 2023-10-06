@@ -9,37 +9,26 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
-	<!-- auto asepct(proxy) -->
-	<aop:aspectj-autoproxy />
-	
+<!-- Security -->
 	<!-- 
 	Validator 
 	Default Servlet Handler 
 	Message Converter 
 	Argument Resolver -->
 	<mvc:annotation-driven>
-		<!-- Argument Resolvers -->
 		<mvc:argument-resolvers>
 			<bean class="com.poscodx.mysite.security.AuthUserHandlerMethodArgumentResolver" />
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
-
-	<!-- Default Servlet Handler -->
-	<mvc:default-servlet-handler />
-
-	<!-- Interceptors -->
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/user/auth" />
 			<bean class="com.poscodx.mysite.security.LoginInterceptor" />
 		</mvc:interceptor>
-
 		<mvc:interceptor>
 			<mvc:mapping path="/user/logout" />
 			<bean class="com.poscodx.mysite.security.LogoutInterceptor" />
 		</mvc:interceptor>
-
 		<mvc:interceptor>
 			<mvc:mapping path="/**" /> <!-- 적용 대상 -->
 			<mvc:exclude-mapping path="/assets/**" /> <!-- 제외 대상 (정적 자원) -->
@@ -47,7 +36,6 @@
 			<mvc:exclude-mapping path="/user/logout" /> <!-- 제외 대상 (뒤에 controller가 없는 경우) -->
 			<bean class="com.poscodx.mysite.security.AuthInterceptor" />
 		</mvc:interceptor>
-		
 		<mvc:interceptor>
 			<mvc:mapping path="/**" /> <!-- 적용 대상 -->
 			<mvc:exclude-mapping path="/assets/**" /> <!-- 제외 대상 (정적 자원) -->
@@ -55,42 +43,11 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 
-	<!-- Message Source -->
-	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basenames">
-			<list>
-				<value>messages/messages_ko</value>
-				<value>messages/messages_en</value>
-			</list>
-		</property>
-	</bean>
+<!-- MVC Config -->
 
+<!-- Message -->
 
-	<!-- View Resolver -->
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/WEB-INF/views/" />
-		<property name="suffix" value=".jsp" />
-		<property name="order" value="1" />  
-		<property name="exposeContextBeansAsAttributes" value="true" />
-		<property name="exposedContextBeanNames">
-			<list>
-				<value>site</value>
-			</list>
-		</property>
-	</bean>
-	
-	<!-- Application ContextEventListener -->
-	<bean class="com.poscodx.mysite.event.ApplicationContextEventListener"/>
-
-	<!-- controller & component -->
-	<context:annotation-config />
-	<context:component-scan
-		base-package="com.poscodx.mysite.controller, com.poscodx.mysite.exception" />
-
+<!-- FileUpload -->
 	<!-- multipart resolver -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -101,8 +58,6 @@
 		<!-- defaultEncoding -->
 		<property name="defaultEncoding" value="utf-8" />
 	</bean>
-
 	<!-- url resource mapping -->
-	<mvc:resources mapping="/assets/upload-images/**"
-		location="file:/mysite-uploads/" />
+	<mvc:resources mapping="/assets/upload-images/**" location="file:/mysite-uploads/" />
 </beans>

@@ -11,7 +11,7 @@
 |	|	|	|-- /web
 |	|	|	|	|-- MvcConfig.java
 |	|	|	|	|-- SecurityConfig.java
-|	|	|	|	|-- MessageResourceConfig.java
+|	|	|	|	|-- MessageSourceConfig.java
 |	|	|	|	|-- FileUploadConfig.java
 |	|	|-- /controller
 |	|	|-- /service
@@ -34,3 +34,5 @@
 |	|	|	|	|-- /messages
 |	|	|	|	|	|-- messages_ko.properties
 |	|	|	|	|	|-- messages_en.properties
+
+com.poscodx.mysite.config.web.messages
