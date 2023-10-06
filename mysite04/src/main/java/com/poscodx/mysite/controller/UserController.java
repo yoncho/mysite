@@ -113,6 +113,14 @@ public class UserController {
 		return "redirect:/user/update";
 	}
 	
+	@RequestMapping("/auth")
+	public void auth() {	
+	}
+	
+	@RequestMapping("/logout")
+	public void logout() {
+	}
+	
 	//Controller 별로 Exception Handler 가능!
 //	@ExceptionHandler(Exception.class)
 //	public String handlerExecption() {
