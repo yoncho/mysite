@@ -1,0 +1,41 @@
+[src/main/java]
+/com
+|-- /poscodx
+|	|-- /mysite
+|	|	|-- /config
+|	|	|	|-- AppConfig.java
+|	|	|	|-- WebConfig.java
+|	|	|	|-- /app
+|	|	|	|	|--DBConfig.java
+|	|	|	|	|--MyBatisConfig.java
+|	|	|	|-- /web
+|	|	|	|	|-- MvcConfig.java
+|	|	|	|	|-- SecurityConfig.java
+|	|	|	|	|-- MessageSourceConfig.java
+|	|	|	|	|-- FileUploadConfig.java
+|	|	|-- /initializer
+|	|	|	|-- MySiteWebApplicationInitializer.java
+|	|	|-- /controller
+|	|	|-- /service
+|	|	|-- /repository
+
+
+[src/main/resources]
+/com
+|-- /poscodx
+|	|-- /mysite
+|	|	|-- /config
+|	|	|	|-- /app
+|	|	|	|	|-- jdbc.properties
+|	|	|	|	|-- /mybatis
+|	|	|	|	|	|-- configuration.xml
+|	|	|	|	|	|-- /mappers
+|	|	|	|	|	|	|-- user.xml
+|	|	|	|	|	|	|-- board.xml
+|	|	|	|-- /web
+|	|	|	|	|-- fileupload.properties
+|	|	|	|	|-- /messages
+|	|	|	|	|	|-- messages_ko.properties
+|	|	|	|	|	|-- messages_en.properties
+
+com.poscodx.mysite.config.web.messages
