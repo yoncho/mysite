@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.poscodx.interceptor.SiteInterceptor;
+import com.poscodx.mysite.config.web.FileUploadConfig;
 import com.poscodx.mysite.config.web.MessageSourceConfig;
 import com.poscodx.mysite.config.web.MvcConfig;
 import com.poscodx.mysite.config.web.SecurityConfig;
@@ -18,7 +19,7 @@ import com.poscodx.mysite.event.ApplicationContextEventListener;
 @Configuration
 @EnableAspectJAutoProxy //<!-- auto asepct(proxy) -->
 @ComponentScan({"com.poscodx.mysite.controller", "com.poscodx.mysite.exception"}) //<!-- controller & component -->
-@Import({MvcConfig.class,SecurityConfig.class,MessageSourceConfig.class})
+@Import({MvcConfig.class,SecurityConfig.class,MessageSourceConfig.class, FileUploadConfig.class})
 public class WebConfig implements WebMvcConfigurer {
 	
 	//SiteInterceptor
