@@ -7,7 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<artifactId>mysite05</artifactId>
 	<packaging>war</packaging>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
@@ -129,20 +129,20 @@
 	<build>
 		<finalName>mysite05</finalName>
 		<plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>3.3.2</version>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.tomcat.maven</groupId>
-            <artifactId>tomcat7-maven-plugin</artifactId>
-            <version>2.2</version>
-            <configuration>
-               <url>${tomcat.deploy.url}</url>
-               <server>poscodx-tomcat</server>
-            </configuration>
-         </plugin>
-      </plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>${tomcat.deploy.url}</url>
+					<server>poscodx-tomcat</server>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>
