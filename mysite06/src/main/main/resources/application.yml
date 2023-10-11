@@ -1,0 +1,17 @@
+# spring configuration yaml
+spring:
+   application:
+      name: myweb
+   # devtools - live reload
+   devtools:
+      livereload:
+         enabled: true
+   # mvc
+   mvc:
+      view:
+         prefix: /WEB-INF/views/
+         suffix: .jsp
+# server
+server:
+   port: 8088
+   
