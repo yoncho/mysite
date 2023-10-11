@@ -18,6 +18,7 @@ import com.poscodx.mysite.security.LogoutInterceptor;
 
 @SpringBootConfiguration
 public class WebConfig implements WebMvcConfigurer {
+	
 	//
 	// Application ConextEvent Listener
 	//
