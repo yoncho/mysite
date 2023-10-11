@@ -1,83 +1,63 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	
-	<groupId>com.poscodx</groupId>
-	<artifactId>mysite02</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.poscodx</groupId>
+   <artifactId>mysite02</artifactId>
+   <version>0.0.1-SNAPSHOT</version>
+   <packaging>war</packaging>
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+      <maven.compiler.source>17</maven.compiler.source>
+      <maven.compiler.target>17</maven.compiler.target>
+   </properties>
+   <dependencies>
+      <!-- mariadb -->
+      <dependency>
+         <groupId>org.mariadb.jdbc</groupId>
+         <artifactId>mariadb-java-client</artifactId>
+         <version>3.0.8</version>
+      </dependency>
+      <!-- jstl -->
+      <dependency>
+         <groupId>jstl</groupId>
+         <artifactId>jstl</artifactId>
+         <version>1.2</version>
+      </dependency>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
-	</properties>
+      <!-- servlet -->
+      <dependency>
+         <groupId>javax.servlet</groupId>
+         <artifactId>javax.servlet-api</artifactId>
+         <version>4.0.1</version>
+         <scope>provided</scope>
 
-	<dependencies>
-		<!-- jstl -->
-		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
-		
-		<!--servlet-->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
-			<scope>provided</scope> <!-- 해당 lib의 포함 범위 여부 (provided : compile할때만
-			사용하고 war파일에 추가 x-->
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.2</version>
-			<scope>provided</scope>
-		</dependency>
-		
-		<!-- mariadb jdbc driver -->
-		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
-			<version>3.0.8</version>
-		</dependency>
-		
-		<!--servlet-->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
-			<scope>provided</scope> <!-- 해당 lib의 포함 범위 여부 (provided : compile할때만
-			사용하고 war파일에 추가 x-->
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.2</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
+      </dependency>
+      <dependency>
+         <groupId>javax.servlet.jsp</groupId>
+         <artifactId>jsp-api</artifactId>
+         <version>2.2</version>
+      </dependency>
 
-	<build>
-		<finalName>mysite02</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.3.2</version> <!--이렇게 명시하는 경우 option을 줄때!-->
-			</plugin>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version> <!--이렇게 명시하는 경우 option을 줄때!-->
-				<configuration>
-					<url>${tomcat.deploy.url}</url>
-					<server>poscodx-tomcat</server>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+   </dependencies>
+   <build>
+      <finalName>mysite02</finalName>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.3.2</version>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <version>2.2</version>
+            <configuration>
+               <url>${tomcat.deploy.url}</url>
+               <server>poscodx-tomcat</server>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
 </project>
