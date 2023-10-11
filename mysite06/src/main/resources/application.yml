@@ -17,7 +17,7 @@ spring:
          suffix: .jsp
    web:
       resources:
-         static-locations: classpath:/assets/, file:/mysite-uploads/         
+         static-locations: classpath:/assets/, file:/mysite-uploads/     
    
    #multipart
    servlet:
@@ -29,7 +29,7 @@ spring:
    # message resources(internationalization, i18n)
    messages:
       always-message-format: true
-      basename: messages/messages_ko      
+      basename: web/messages/messages_ko      
       encoding: utf-8
    
    # aop
@@ -40,9 +40,9 @@ spring:
    #datasource
    datasource:
       driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mariadb://192.168.0.172:3307/webdb?charset=utf8
-      username: webdb
-      password: webdb
+      url: jdbc:mariadb://192.168.0.181:3307/webdb?charset=utf8
+      username: mysite
+      password: mysite
       hikari:
          minimum-idle: 10
          maximum-pool-size: 20
@@ -53,9 +53,10 @@ mybatis:
    
 # server
 server:
-   port: 8080
+   port: 8085
    servlet:
       context-path: /mysite06
       encoding:
          charset: utf-8
-         enabled: true          
+         enabled: true
+      
