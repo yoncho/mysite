@@ -40,8 +40,7 @@ public class GuestbookController {
 	public JsonResult deleteGuestBook(
 			@PathVariable("no") int no,
 			String password) {
-		System.out.println(no + "|" + password);
-		boolean result = guestbookService.deleteContents(no, password);
+		guestbookService.deleteContents(no, password);
 		return JsonResult.success("");
 	};
 }

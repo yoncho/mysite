@@ -28,7 +28,6 @@ var messageBox = function(title, message, callback) {
 }
 
 var render = function(vo, mode){
-	
 	var html = 
 		"<li data-no='"+vo.no+"'>" +
 		"<strong>"+vo.name+"</strong>" + 
@@ -57,10 +56,6 @@ var fetch = function(){
 		}
 	});
 };
-
-var remove = function(no){
-	
-}
 
 $(function(){
 	$("#add-form").submit(function(event){
@@ -135,12 +130,11 @@ $(function(){
 							console.error(response.message);
 							return;
 						}
-						if(response.data){
-							
-						}
+						
+						//2. response.data(no) 가지고 있는 <li data+no='{no}'> 찾아서 삭제
+						$("li[data-no="+no+"]").remove();
 					}
 				});
-				//2. response.data(no) 가지고 있는 <li data+no='{no}'> 찾아서 삭제
 				
 				//3. dialogDelete.dialog('close');
 				dialogDelete.dialog('close');
