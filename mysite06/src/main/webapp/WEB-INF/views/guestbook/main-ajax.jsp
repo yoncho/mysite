@@ -58,6 +58,10 @@ var fetch = function(){
 	});
 };
 
+var remove = function(no){
+	
+}
+
 $(function(){
 	$("#add-form").submit(function(event){
 		event.preventDefault();
@@ -94,14 +98,11 @@ $(function(){
 			data: JSON.stringify(vo),
 			success: function(response){
 				if(response.result === 'fail'){
-					console.error(response.message);
 					return;
 				}
-				messageBox("게스트북 성공", "게스트북 작성이 완료되었습니다.", function(){
-					$("#input-name").val('');
-					$("#input-password").val('');
-					$("#tx-content").val('');
-				})
+				$("#input-name").val('');
+				$("#input-password").val('');
+				$("#tx-content").val('');
 				render(vo, true);
 			},
 			error: function(){
@@ -109,7 +110,59 @@ $(function(){
 				return;
 			}
 		});
-		
+	});
+	
+	var dialogDelete = $("#dialog-delete-form").dialog({
+		autoOpen:false,
+		modal: true,
+		buttons: {
+			"삭제":function(){
+				var no = $("#hidden-no").val();
+				var password = $("#password-delete").val();
+				
+				console.log("ajax 삭제 !!", no, password);
+				
+				//후처리
+				//1. server 요소 제거
+				$.ajax({
+					url:'${pageContext.request.contextPath}/api/guestbook/'+no,
+					type: 'delete',
+					dataType: 'json',
+					contentType: 'application/x-www-form-urlencoded',
+					data: 'password='+password,
+					success: function(response){
+						if (response.result === 'fail'){
+							console.error(response.message);
+							return;
+						}
+						if(response.data){
+							
+						}
+					}
+				});
+				//2. response.data(no) 가지고 있는 <li data+no='{no}'> 찾아서 삭제
+				
+				//3. dialogDelete.dialog('close');
+				dialogDelete.dialog('close');
+			
+				//폼의 input value reset;
+				$("#password-delete").val('');
+			},
+			"취소":function(){
+				$(this).dialog('close');
+			}
+		},
+		close: function(){
+			console.log("dialog close!!!");
+		}
+	});
+	
+	// message delete button click event (Live Event)
+	$(document).on('click', '#list-guestbook li a', function(event){
+		event.preventDefault();
+		console.log($(this).data('no'));
+		$("#hidden-no").val($(this).data('no'));
+		dialogDelete.dialog('open');
 	});
 	
 	//최초 목록
@@ -151,7 +204,7 @@ $(function(){
 		<c:import url="/WEB-INF/views/includes/footer.jsp" />
 	</div>
 	<!-- 경고창 -->
-	<div id="dialog" title="">
+	<div id="dialog-message" title="">
   		<p></p>
 	</div>
 </body>

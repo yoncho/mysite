@@ -17,7 +17,7 @@ public class GuestbookService {
 		return guestbookRepository.findAll();
 	}
 	
-	public Boolean deleteContents(Long no, String password) {
+	public Boolean deleteContents(int no, String password) {
 		return guestbookRepository.deleteByNoAndPassword(no, password);
 	}
 	

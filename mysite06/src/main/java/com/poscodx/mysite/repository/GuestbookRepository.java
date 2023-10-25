@@ -15,7 +15,7 @@ public class GuestbookRepository {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public Boolean deleteByNoAndPassword(Long no, String password) {
+	public Boolean deleteByNoAndPassword(int no, String password) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("no", no);
 		map.put("password", password);
