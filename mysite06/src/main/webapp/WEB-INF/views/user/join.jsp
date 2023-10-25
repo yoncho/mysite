@@ -14,8 +14,19 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-var messageBox = function(title, message, callback){
-
+var messageBox = function(title, message, callback) {
+	$("#dialog").attr('title', title);
+	$("#dialog p").text(message);
+	$("#dialog").dialog({
+		width: 340,
+		modal: true,
+		buttons: {
+			"확인": function() {
+				$(this).dialog("close");
+			}
+		},
+		close: callback
+	});			
 }
 
 $(function(){
