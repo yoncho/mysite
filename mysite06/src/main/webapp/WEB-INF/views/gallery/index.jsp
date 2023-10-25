@@ -16,9 +16,10 @@
 	rel="stylesheet" type="text/css">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/assets/js/lightbox.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <c:if test="${not empty authUser && authUser.role=='ADMIN' }">
 <script type="text/javascript">
