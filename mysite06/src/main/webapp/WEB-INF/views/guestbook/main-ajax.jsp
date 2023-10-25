@@ -12,18 +12,35 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-var render = function(vo, mode){
-	var html = "<li data-no='"+vo.no+"'>" +
-	"<strong>"+vo.name+"</strong>" + 
-	"<p>"+(vo.contents).replaceAll('\n', '<br>')+"</p>" + 
-	"<strong></strong>" +
-	"<a href='' data-no='"+vo.no+"'>삭제</a>" + 
-	"</li>";
-	 
-	$("#list-guestbook")[mode ? 'prepend':'append'](html);
+var messageBox = function(title, message, callback) {
+	$("#dialog").attr('title', title);
+	$("#dialog p").text(message);
+	$("#dialog").dialog({
+		width: 340,
+		modal: true,
+		buttons: {
+			"확인": function() {
+				$(this).dialog("close");
+			}
+		},
+		close: callback
+	});			
 }
 
-$(function(){
+var render = function(vo, mode){
+	
+	var html = 
+		"<li data-no='"+vo.no+"'>" +
+		"<strong>"+vo.name+"</strong>" + 
+		"<p>"+(vo.contents).replaceAll('\n', '<br>')+"</p>" + 
+		"<strong></strong>" +
+		"<a href='' data-no='"+vo.no+"'>삭제</a>" + 
+		"</li>";
+	 
+	$("#list-guestbook")[mode ? 'prepend':'append'](html);
+} 
+
+var fetch = function(){
 	$.ajax({
 		url:'/mysite06/api/guestbook',
 		type:'get',
@@ -33,14 +50,72 @@ $(function(){
 				console.error(response.message);
 				return;
 			}
-			console.log(response);
 			
 			response.data.forEach(function(vo){
 				render(vo, false);
 			});
 		}
 	});
+};
+
+$(function(){
+	$("#add-form").submit(function(event){
+		event.preventDefault();
+		
+		if($("#input-name").val() === ''){
+			messageBox("게스트북", "이름은 필수 항목 입니다.", function(){
+				$("#input-name").focus();
+			})
+			return;
+		}
+		if($("#input-password").val() === ''){
+			messageBox("게스트북", "비밀번호는 필수 항목 입니다.", function(){
+				$("#input-password").focus();
+			})
+			return;
+		}
+		if($("#tx-content").val() === ''){
+			messageBox("게스트북", "내용은 필수 항목 입니다.", function(){
+				$("#tx-content").focus();
+			})
+			return;
+		}
+		
+		var vo = {};
+		vo.name = $("#input-name").val();
+		vo.password = $("#input-password").val();
+		vo.contents = ($("#tx-content").val()).replaceAll('<br>', '\n');
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/api/guestbook',
+			type: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(vo),
+			success: function(response){
+				if(response.result === 'fail'){
+					console.error(response.message);
+					return;
+				}
+				messageBox("게스트북 성공", "게스트북 작성이 완료되었습니다.", function(){
+					$("#input-name").val('');
+					$("#input-password").val('');
+					$("#tx-content").val('');
+				})
+				render(vo, true);
+			},
+			error: function(){
+				console.error(response.message);
+				return;
+			}
+		});
+		
+	});
+	
+	//최초 목록
+	fetch();
 });
+
 </script>
 </head>
 <body>
@@ -74,6 +149,10 @@ $(function(){
 			<c:param name="menu" value="guestbook-ajax"/>
 		</c:import>
 		<c:import url="/WEB-INF/views/includes/footer.jsp" />
+	</div>
+	<!-- 경고창 -->
+	<div id="dialog" title="">
+  		<p></p>
 	</div>
 </body>
 </html>
