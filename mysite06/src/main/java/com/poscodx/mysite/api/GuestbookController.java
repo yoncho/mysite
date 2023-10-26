@@ -32,8 +32,9 @@ public class GuestbookController {
 	@PostMapping
 	public JsonResult insertGuestBook(
 			@RequestBody GuestbookVo vo) {
-		guestbookService.addContents(vo);
+		int no = guestbookService.addContents(vo);
 		vo.setPassword("");
+		vo.setNo(no);
 		return JsonResult.success(vo);
 	}
 	@DeleteMapping("{no}")

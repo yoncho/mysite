@@ -98,7 +98,7 @@ $(function(){
 				$("#input-name").val('');
 				$("#input-password").val('');
 				$("#tx-content").val('');
-				render(vo, true);
+				render(response.data, true);
 			},
 			error: function(){
 				console.error(response.message);
@@ -114,9 +114,7 @@ $(function(){
 			"삭제":function(){
 				var no = $("#hidden-no").val();
 				var password = $("#password-delete").val();
-				
-				console.log("ajax 삭제 !!", no, password);
-				
+								
 				//후처리
 				//1. server 요소 제거
 				$.ajax({
@@ -147,14 +145,13 @@ $(function(){
 			}
 		},
 		close: function(){
-			console.log("dialog close!!!");
+			//close action
 		}
 	});
 	
 	// message delete button click event (Live Event)
 	$(document).on('click', '#list-guestbook li a', function(event){
 		event.preventDefault();
-		console.log($(this).data('no'));
 		$("#hidden-no").val($(this).data('no'));
 		dialogDelete.dialog('open');
 	});

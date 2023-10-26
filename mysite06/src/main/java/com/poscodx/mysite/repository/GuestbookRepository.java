@@ -24,9 +24,9 @@ public class GuestbookRepository {
 		return count == 1;
 	}
 	
-	public Boolean insert(GuestbookVo vo) {
+	public int insert(GuestbookVo vo) {
 		int count = sqlSession.insert("guestbook.insert", vo);
-		return count == 1;
+		return vo.getNo();
 	}
 	
 	public List<GuestbookVo> findAll() {
