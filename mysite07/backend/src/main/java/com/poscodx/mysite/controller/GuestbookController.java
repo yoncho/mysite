@@ -31,6 +31,7 @@ public class GuestbookController {
 
 	@PostMapping("")
 	public ResponseEntity<JsonResult> add(@RequestBody GuestbookVo vo) {
+		System.out.println(vo);
 		guestbookService.addContent(vo);
 		vo.setPassword("");		
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResult.success(vo));
