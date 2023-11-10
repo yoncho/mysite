@@ -6,8 +6,34 @@ import styles from '../../assets/scss/component/gallery/Gallery.scss';
 import data from '../../assets/json/data';
 
 export default function Index() {
-    const [imageList, setImageList] = useState(data);
+    const [imageList, setImageList] = useState([]);
+    
+    useEffect(()=>{
+        getImageList();
+    }, []);
+    const removeImage = async(no) =>{
+        try{
+            const response = await fetch(`/api/gallery/${no}`, {
+                method: 'delete',
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'Accept': 'application/json'
+                },
+                body:null
+            });
 
+            if(!response.ok){
+                throw `${response.status} ${response.statusText}`;
+            }
+
+            const updateImageList = imageList.filter(x=> {
+                if(x.no !== no) return x;
+            })
+            setImageList(updateImageList);
+        }catch(err){
+            console.error(err);
+        }
+    }
     const addImage = async (comment, file) => {
         try {
             // Create FormData
@@ -18,7 +44,6 @@ export default function Index() {
             // Post
             const response = await fetch(`/api/gallery`, {
                 method: 'post',
-                headers: {'Accept': 'application/json'},
                 body: formData
             });
 
@@ -34,6 +59,39 @@ export default function Index() {
 
             // Rendering(Update)
             setImageList([json.data, ...imageList]);
+            
+            return true;
+
+        } catch (err) {
+            console.error(err);
+            return false;
+        }
+    };
+
+    const getImageList = async () => {
+
+        try {
+            // Get
+            const response = await fetch(`/api/gallery`, {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'Accept': 'application/json'
+                },
+                body: null
+            });
+
+            if (!response.ok) {
+                throw `${response.status} ${response.statusText}`;
+            }
+            console.log(response);
+            // API success?
+            const json = await response.json();
+            if (json.result !== 'success') {
+                throw json.message;
+            }
+            console.log(json.data);
+            setImageList(json.data);
         } catch (err) {
             console.error(err);
         }
@@ -44,7 +102,7 @@ export default function Index() {
         <MySiteLayout>
             <div className={styles.Gallery}>
                 <Header addImage={addImage}/>
-                <ImageList imageList={imageList} />
+                <ImageList imageList={imageList} removeImage={removeImage}/>
             </div>
         </MySiteLayout>
     )

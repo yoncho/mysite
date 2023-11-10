@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,11 +36,11 @@ public class GalleryController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<JsonResult> upload(MultipartFile file, GalleryVo galleyVo) {
-		galleyVo.setImageUrl(FileUploadService.restoreImage(file));
-		galleryService.addGalleryImage(galleyVo);
-
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResult.success(galleyVo));
+	public ResponseEntity<JsonResult> upload(MultipartFile file, GalleryVo galleryVo) {
+		galleryVo.setImageUrl(FileUploadService.restoreImage(file));
+		galleryService.addGalleryImage(galleryVo);
+		System.out.println(galleryVo);
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResult.success(galleryVo));
 	}
 	
 	@DeleteMapping(value="/{no}")

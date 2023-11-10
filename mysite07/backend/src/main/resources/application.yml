@@ -42,9 +42,9 @@ spring:
          static-locations: classpath:/assets/, file:/mysite-uploads/
    datasource:
       driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/webdb?characterEncoding=utf8
-      username: webdb
-      password: webdb   
+      url: jdbc:mariadb://192.168.0.181:3307/webdb?characterEncoding=utf8
+      username: mysite
+      password: mysite   
 server:
    port: 8080
    servlet:
@@ -72,9 +72,9 @@ spring:
          static-locations: classpath:/assets/, file:/mysite-uploads/         
    datasource:
       driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mariadb://192.168.0.172:3306/webdb?characterEncoding=utf8
-      username: webdb
-      password: webdb   
+      url: jdbc:mariadb://192.168.0.181:3307/webdb?characterEncoding=utf8
+      username: mysite
+      password: mysite   
 server:
    port: 8088
    servlet:
