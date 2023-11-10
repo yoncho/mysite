@@ -18,8 +18,8 @@
 		values (null, #{name }, #{password }, #{contents }, now())
 		]]>
 		<selectKey resultType="int" keyProperty="no" order="AFTER">
-        SELECT LAST_INSERT_ID()
-    </selectKey>   
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>   
 	</insert>
 
 	<delete id="deleteByNoAndPassword" parameterType="map">

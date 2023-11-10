@@ -148,7 +148,6 @@ $(function(){
 			//close action
 		}
 	});
-	
 	// message delete button click event (Live Event)
 	$(document).on('click', '#list-guestbook li a', function(event){
 		event.preventDefault();
